@@ -2,7 +2,6 @@ version: '3'
 services:
 
     nginx:
-        container_name: nginx
         build: ./nginx
         image: docker-server/nginx
         restart: always
@@ -15,7 +14,6 @@ services:
           - django
 
     django:
-        container_name: django
         build: ./webapp
         image: docker-server/django
         restart: always
@@ -28,7 +26,6 @@ services:
 
     mysql:
       image: mysql:8.0
-      container_name: mysql-server
       ports:
         - "3306:3306"
       environment:

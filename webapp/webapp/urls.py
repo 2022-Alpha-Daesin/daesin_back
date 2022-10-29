@@ -24,4 +24,5 @@ def ping(request):
 
 urlpatterns = [
     path("", ping),
+    path("admin/", admin.site.urls)
 ]
