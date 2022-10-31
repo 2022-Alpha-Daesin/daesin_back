@@ -17,7 +17,10 @@ services:
         build: ./webapp
         image: docker-server/django
         restart: always
-        command: uwsgi --ini uwsgi.ini
+        command: bash -c
+            "python manage.py makemigrations
+            && python manage.py migrate
+            && uwsgi --ini uwsgi.ini"
         volumes:
           - ./webapp:/srv/docker-server
           - ./log:/var/log/uwsgi
