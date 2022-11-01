@@ -5,23 +5,22 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 class UserManager(BaseUserManager):
     """ModelManager definition for User Model"""
 
-    def _create_user(self, username, password, email, **kwargs):
+    def create_user(self, username, password):
+        """일반 유저 생성 메소드"""
         user = self.model(
             username=username,
-            email=self.normalize_email(email),
-            **kwargs,
         )
         user.set_password(password)
         user.save()
 
-    def create_user(self, username, password, email, **kwargs):
-        """일반 유저 생성 메소드"""
-        self._create_user(username, password, email, **kwargs)
-
-    def create_superuser(self, username, password, email, **kwargs):
+    def create_superuser(self, username, password):
         """슈퍼 유저(superuser) 생성 메소드"""
-        kwargs.setdefault('is_superuser', True)
-        self._create_user(username, password, email, **kwargs)
+        user = self.model(
+            username=username,
+        )
+        user.set_password(password)
+        user.save()
+        user.is_admin = True
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -39,18 +38,23 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=20,
     )  # 사용자명
     email = models.EmailField(
+        null=True,
         unique=True,
     )  # 이메일
     # TODO nickname unique 로 할 건지 알아보기
     nickname = models.CharField(
+        null=True,
         unique=True,
         max_length=20,
     )  # 닉네임
     grade = models.PositiveIntegerField(
-        blank=True
+        null=True,
+        blank=True,
     )  # 학년
     # TODO 전공은 choice 필드로 할 건지 알아보기
     major = models.CharField(
+        null=True,
+        blank=True,
         max_length=30,
     )  # 전공
     created_at = models.DateTimeField(

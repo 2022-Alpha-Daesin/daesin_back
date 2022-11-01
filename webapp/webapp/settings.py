@@ -162,3 +162,5 @@ JAZZMIN_SETTINGS = {
     'site_header': 'Daesin',
     'site_brand': 'Daesin',
 }
+
+AUTH_USER_MODEL = 'user.User'
