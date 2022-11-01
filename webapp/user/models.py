@@ -19,8 +19,8 @@ class UserManager(BaseUserManager):
             username=username,
         )
         user.set_password(password)
+        user.is_superuser = True
         user.save()
-        user.is_admin = True
 
 
 class User(AbstractBaseUser, PermissionsMixin):
