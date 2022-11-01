@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -152,4 +153,11 @@ LOGGING = {
             'level': 'DEBUG',
         },
     },
+}
+
+
+JAZZMIN_SETTINGS = {
+    'site_title': 'Daesin',
+    'site_header': 'Daesin',
+    'site_brand': 'Daesin',
 }
