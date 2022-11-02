@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -54,7 +55,6 @@ INSTALLED_APPS = [
 
     # 설치한 앱
     "drf_yasg",
-    "jazzmin",
     "user",
 ]
 
