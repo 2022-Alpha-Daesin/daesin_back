@@ -723,4 +723,10 @@ cython_debug/
 .env
 
 data/
+Lib/
 .static/
+
+webapp/apps.sock
+webapp/requirements2.txt
+pyvenv.cfg
+/Scripts

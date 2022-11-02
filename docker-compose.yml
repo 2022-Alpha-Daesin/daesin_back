@@ -6,7 +6,7 @@ services:
         image: docker-server/nginx
         restart: always
         ports:
-          - "80:80"
+          - "8000:80"
         volumes:
           - ./webapp:/srv/docker-server
           - ./log:/var/log/nginx
@@ -20,6 +20,7 @@ services:
         command: bash -c
             "python manage.py makemigrations
             && python manage.py migrate
+            && python manage.py collectstatic --no-input --clear
             && uwsgi --ini uwsgi.ini"
         volumes:
           - ./webapp:/srv/docker-server
@@ -30,13 +31,16 @@ services:
     mysql:
       image: mysql:8.0
       ports:
-        - "3306:3306"
+        - "3308:3308"
       environment:
         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         TZ: Asia/Seoul
+        MYSQL_TCP_PORT: 3308
+      expose:
+        - "3308"
       command: # 명령어 실행
         - --character-set-server=utf8mb4
         - --collation-server=utf8mb4_unicode_ci
