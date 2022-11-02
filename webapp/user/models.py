@@ -41,7 +41,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True,
         unique=True,
     )  # 이메일
-    # TODO nickname unique 로 할 건지 알아보기
     nickname = models.CharField(
         null=True,
         unique=True,
@@ -51,7 +50,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
     )  # 학년
-    # TODO 전공은 choice 필드로 할 건지 알아보기
     major = models.CharField(
         null=True,
         blank=True,
