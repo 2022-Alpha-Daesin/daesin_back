@@ -1,18 +1,24 @@
-# /docker-server/server_dev/Dockerfile
 FROM python:3.8.10
+# python 3.8.10 설치
 
+ENV PYTHONDONTWRITEBYTECODE 1
+# 파이썬은 소스 모듈을 임포트 할 때 .pyc 파일을 쓰지 않는다.
 ENV PYTHONUNBUFFERED 1
+# 파이썬에서 출력 버퍼가 기본으로 작동하는데 이 버퍼를 없애준다. 이를 통해 파이썬 로그를 더 빠르게 출력
 
 RUN apt-get -y update
-RUN apt-get -y install vim
 
 RUN mkdir /srv/docker-server
 ADD . /srv/docker-server
 
 WORKDIR /srv/docker-server
+# 작업공간 이동 (=cd)
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-#EXPOSE 8000
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY . .
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+# docker image 생성 전 docker-entrypoint.sh 에 있는 명령어 실행
