@@ -137,7 +137,7 @@ WSGI_APPLICATION = "webapp.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE':   'mysql.connector.django',
+        'ENGINE': 'mysql.connector.django',
         'NAME': os.environ.get("DATABASES_NAME"),
         'USER': os.environ.get("DATABASES_USER"),
         'PASSWORD': os.environ.get("DATABASES_PASSWORD"),
@@ -169,9 +169,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "ASIA/Seoul"
 
 USE_I18N = True
 
@@ -186,7 +186,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, '.static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

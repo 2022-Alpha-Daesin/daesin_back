@@ -3,7 +3,6 @@ name: Bug report
 about: 버그 발생 사항 보고
 title: "[BUG]"
 labels: bug
-assignees: rkdtmddnjs97
 
 ---
 

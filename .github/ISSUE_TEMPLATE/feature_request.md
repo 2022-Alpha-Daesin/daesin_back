@@ -3,7 +3,6 @@ name: Feature request
 about: 요구사항 정의
 title: "[Feature]"
 labels: enhancement
-assignees: rkdtmddnjs97
 
 ---
 
