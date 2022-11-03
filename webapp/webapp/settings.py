@@ -41,9 +41,63 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    'rest_framework.authtoken',
+
+    # migrate에 필요
+    'django.contrib.sites',
+
+    # django 회원가입/로그인
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', # 이거 없으면 유저 delete할때 에러난다고 해서 포함
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+
+    # 설치한 앱
     "drf_yasg",
     "user",
 ]
+
+# dj_rest_auth, allauth 회원가입 설정
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+SITE_ID = 1
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+AUTH_USER_MODEL = 'user.User'
+
+ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+}
+
+# 회원가입 인증 이메일 관련 설정
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True  # TLS 보안
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "none"
+
+EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = EMAIL_HOST_USER
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+# 이메일 제목
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -60,7 +114,9 @@ ROOT_URLCONF = "webapp.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -162,5 +218,3 @@ JAZZMIN_SETTINGS = {
     'site_header': 'Daesin',
     'site_brand': 'Daesin',
 }
-
-AUTH_USER_MODEL = 'user.User'
