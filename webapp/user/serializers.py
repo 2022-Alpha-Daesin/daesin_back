@@ -1,5 +1,6 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
+from user.models import User
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -17,3 +18,16 @@ class CustomRegisterSerializer(RegisterSerializer):
             'grade': self.validated_data.get('grade', ''),
             'major': self.validated_data.get('major', ''),
         }
+
+
+class UserAbstractSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'nickname',
+            'grade',
+            'major',
+        ]
+
