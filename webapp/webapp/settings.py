@@ -54,8 +54,10 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 
     # 설치한 앱
+    "django_filters",
     "drf_yasg",
     "user",
+    "post",
 ]
 
 REST_FRAMEWORK = {
@@ -63,6 +65,7 @@ REST_FRAMEWORK = {
         'webapp.authentications.CsrfExemptSessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 # dj_rest_auth, allauth 회원가입 설정
