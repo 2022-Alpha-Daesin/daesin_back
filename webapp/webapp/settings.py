@@ -58,6 +58,13 @@ INSTALLED_APPS = [
     "user",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'webapp.authentications.CsrfExemptSessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
 # dj_rest_auth, allauth 회원가입 설정
 
 REST_USE_JWT = True
