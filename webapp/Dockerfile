@@ -1,14 +1,13 @@
-FROM python:3.8.10
+FROM python:3.8-slim-buster as builder
 # python 3.8.10 설치
 
 ENV PYTHONDONTWRITEBYTECODE 1
 # 파이썬은 소스 모듈을 임포트 할 때 .pyc 파일을 쓰지 않는다.
 ENV PYTHONUNBUFFERED 1
 # 파이썬에서 출력 버퍼가 기본으로 작동하는데 이 버퍼를 없애준다. 이를 통해 파이썬 로그를 더 빠르게 출력
-
-RUN apt-get -y update
-
+RUN apt-get -y update && apt-get install -y default-libmysqlclient-dev gcc
 RUN mkdir /srv/docker-server
+
 ADD . /srv/docker-server
 
 WORKDIR /srv/docker-server
@@ -17,6 +16,12 @@ WORKDIR /srv/docker-server
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+FROM builder as webapp
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /srv/docker-server
 COPY . .
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -18,15 +17,10 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
-
-def ping(request):
-    return HttpResponse('pong!!!!!!!')
-
-
 urlpatterns = [
 
-    path('', include('dj_rest_auth.urls')),
-    path('registration/', include('dj_rest_auth.registration.urls')),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', include('dj_rest_auth.registration.urls')),
     # 유효한 이메일이 유저에게 전달
     re_path(r'^account-confirm-email/$', VerifyEmailView.as_view(), name='account_email_verification_sent'),
     # 유저가 클릭한 이메일(=링크) 확인
@@ -39,9 +33,6 @@ urlpatterns = [
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('post/', include('post.urls'), name='posts'),
-
-    # 임시 url
-    path("ping/", ping),
     path("admin/", admin.site.urls)
 
 ]
