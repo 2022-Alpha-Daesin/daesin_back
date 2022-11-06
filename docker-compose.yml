@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   nginx:
     build:
       context: ./nginx
@@ -17,13 +16,6 @@ services:
       - "8000:80"
     # 외부로 노출시킬 포트의 맵핑을 명시. 호스트 외부 포트와 컨테이너 내부 포트를 지정
 
-    volumes:
-      - ./webapp:/srv/docker-server
-      - ./log:/var/log/nginx
-      - staticfiles:/srv/docker-server/static
-      - mediafiles:/srv/docker-server/media
-    # 마운트(mount)가 필요한 호스트의 경로와 컨테이너의 경로를 명시
-
     depends_on:
       - django
     # 서비스 간 의존 관계를 지정하기 위해서 사용. 위의 경우 nginx가 올라오기 전에 django가 먼저 올라와야 함을 명시
@@ -38,7 +30,7 @@ services:
       bash -c "python ./manage.py makemigrations --noinput &&
                python ./manage.py migrate --noinput &&
                python ./manage.py collectstatic --noinput &&
-               uwsgi --ini uwsgi.ini"
+               python ./manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./webapp:/srv/docker-server
       - ./log:/var/log/uwsgi
