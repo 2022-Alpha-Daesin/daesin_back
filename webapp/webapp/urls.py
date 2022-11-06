@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.http import HttpResponse
 from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -18,11 +17,6 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
-
-def ping(request):
-    return HttpResponse('pong!!!!!!!')
-
-
 urlpatterns = [
 
     path('auth/', include('dj_rest_auth.urls')),
@@ -39,9 +33,6 @@ urlpatterns = [
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('post/', include('post.urls'), name='posts'),
-
-    # 임시 url
-    path("ping/", ping),
     path("admin/", admin.site.urls)
 
 ]
