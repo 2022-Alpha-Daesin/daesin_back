@@ -17,6 +17,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             'nickname': self.validated_data.get('nickname', ''),
             'grade': self.validated_data.get('grade', ''),
             'major': self.validated_data.get('major', ''),
+            'password1': self.validated_data.get('password1', ''),
         }
 
 

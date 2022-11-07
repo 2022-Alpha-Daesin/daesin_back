@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     'rest_framework.authtoken',
-
+    'rest_framework_simplejwt.token_blacklist',
     # migrate에 필요
     'django.contrib.sites',
 
@@ -62,8 +62,11 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.SessionAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         'webapp.authentications.CsrfExemptSessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
@@ -109,6 +112,25 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': SECRET_KEY,
+    # JWT_ALGORITHM : JWT 암호화에 사용되는 알고리즘 설정
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_ALLOW_REFRESH': True,
+    # JWT_ALLOW_REFRESH : JWT 토큰을 refresh할건지
+    'JWT_EXPIRATION_DELTA': timedelta(days=7),
+    # JWT_EXPIRATION_DELTA : JWT 토큰의 유효기간 설정
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=28),
+    # JWT_REFRESH_EXPIRATION_DELTA : JWT 토큰의 갱신 유효기간
+}
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -187,7 +209,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDENTIALS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -220,7 +243,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
     },
 }
