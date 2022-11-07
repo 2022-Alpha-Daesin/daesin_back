@@ -62,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         auto_now=True
     )  # 유저 레코드가 수정된 일자
 
+    is_active = models.BooleanField(
+        default=True
+        )
     objects = UserManager()
 
     @property

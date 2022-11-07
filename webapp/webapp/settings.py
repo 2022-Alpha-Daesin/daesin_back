@@ -70,9 +70,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
-
 # dj_rest_auth, allauth 회원가입 설정
-
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
@@ -80,7 +78,6 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 SITE_ID = 1
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 AUTH_USER_MODEL = 'user.User'
@@ -90,7 +87,9 @@ ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
 }
-
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
+}
 # 회원가입 인증 이메일 관련 설정
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

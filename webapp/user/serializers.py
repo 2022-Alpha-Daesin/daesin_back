@@ -1,7 +1,12 @@
+from django.conf import settings
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from rest_framework import serializers
+from dj_rest_auth.serializers import LoginSerializer
+from rest_framework import serializers, exceptions
+from django.utils.translation import gettext_lazy as _
 from user.models import User
-
+from rest_framework.exceptions import ValidationError
+from django.contrib.auth import authenticate, get_user_model
+from django.urls import exceptions as url_exceptions
 
 class CustomRegisterSerializer(RegisterSerializer):
     username = serializers.CharField(max_length=10, required=True)
@@ -19,7 +24,6 @@ class CustomRegisterSerializer(RegisterSerializer):
             'major': self.validated_data.get('major', ''),
             'password1': self.validated_data.get('password1', ''),
         }
-
 
 class UserAbstractSerializer(serializers.ModelSerializer):
     class Meta:
