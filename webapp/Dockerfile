@@ -5,18 +5,23 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # 파이썬은 소스 모듈을 임포트 할 때 .pyc 파일을 쓰지 않는다.
 ENV PYTHONUNBUFFERED 1
 # 파이썬에서 출력 버퍼가 기본으로 작동하는데 이 버퍼를 없애준다. 이를 통해 파이썬 로그를 더 빠르게 출력
+
 RUN apt-get -y update && apt-get install -y default-libmysqlclient-dev gcc
 RUN mkdir /srv/docker-server
 
-ADD . /srv/docker-server
+FROM builder as package
 
+ENV PYTHONDONTWRITEBYTECODE 1
+# 파이썬은 소스 모듈을 임포트 할 때 .pyc 파일을 쓰지 않는다.
+ENV PYTHONUNBUFFERED 1
+
+ADD . /srv/docker-server
 WORKDIR /srv/docker-server
-# 작업공간 이동 (=cd)
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-FROM builder as webapp
+FROM package as webapp
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
