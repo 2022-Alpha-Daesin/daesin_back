@@ -11,9 +11,9 @@ class Post(models.Model):
         verbose_name_plural = 'Posts'
 
     POST_TYPE = (
-        ('REVIEW', 'review'),
-        ('CLUBPOST', 'clubpost'),
-        ('ADVERTISEMENT', 'advertisement'),
+        ('R', 'review'),
+        ('C', 'clubpost'),
+        ('A', 'advertisement'),
     )
 
     title = models.CharField(
@@ -33,7 +33,7 @@ class Post(models.Model):
         verbose_name='글쓴이',
     )
     type = models.CharField(
-        max_length=20,
+        max_length=5,
         choices=POST_TYPE,
         null=True,
         verbose_name='글 종류',
