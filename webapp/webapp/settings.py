@@ -87,9 +87,7 @@ ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
 }
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
-}
+
 # 회원가입 인증 이메일 관련 설정
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
