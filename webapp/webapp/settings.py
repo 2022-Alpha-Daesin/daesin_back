@@ -109,6 +109,8 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
+# 로그인시 이메일빼고 아이디/비번만 사용하도록
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
