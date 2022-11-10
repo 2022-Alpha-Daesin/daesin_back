@@ -43,7 +43,7 @@ class Major(models.Model):
     )
 
     def get_full_major(self):
-        if self.sub_major:
+        if self.sub_major != None:
             return f'{self.get_college_display()} {self.department} {self.sub_major}'
         return f'{self.get_college_display()} {self.department}'
     
