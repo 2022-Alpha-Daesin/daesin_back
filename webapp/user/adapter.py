@@ -19,9 +19,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         if major:
             major = get_object_or_404(Major, pk=major)
             user_major = UserMajor.objects.create(
-                major_user=user,
-                major=major,
-                number=1
+                user=user,
+                major=major
             )
         return user
 

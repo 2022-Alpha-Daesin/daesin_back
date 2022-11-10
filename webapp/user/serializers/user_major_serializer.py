@@ -5,4 +5,4 @@ from user.models import UserMajor
 class UserMajorSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMajor
-        fields = ['major_user', 'major', 'number']
+        fields = ['user', 'major', 'number']

@@ -27,14 +27,23 @@ class Major(models.Model):
     )
 
     college = models.CharField(
-        max_length=5,
+        max_length=3,
         choices=COLLEGE_TYPE,
-        null=True,
         verbose_name='단과대',
     )
-
-    major = models.CharField(
-        max_length=20,
-        null=False,
+    department = models.CharField(
+        max_length=30,
+        null=True,
+        verbose_name='학부'
+    )
+    sub_major = models.CharField(
+        max_length=30,
+        null=True,
         verbose_name='전공'
     )
+
+    def get_full_major(self):
+        if self.sub_major:
+            return self.get_college_display() + self.department+self.sub_major
+        return self.get_college_display() + self.department
+    

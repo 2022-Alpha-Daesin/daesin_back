@@ -11,6 +11,19 @@ class UserMajor(models.Model):
         verbose_name = 'UserMajor'
         verbose_name_plural = 'UserMajors'
 
-    major_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    major = models.ForeignKey('user.Major', on_delete=models.CASCADE)
-    number = models.IntegerField(default=0)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='user_majors',
+        verbose_name='유저',
+         )
+    major = models.ForeignKey(
+        'user.Major',
+        on_delete=models.CASCADE,
+        related_name='user_majors',
+        verbose_name='학과'
+        )
+    number = models.IntegerField(
+        default=1,
+        verbose_name='전공순위'
+        )
