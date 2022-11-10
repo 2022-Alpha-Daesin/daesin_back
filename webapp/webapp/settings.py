@@ -68,7 +68,7 @@ REST_FRAMEWORK = {
         'webapp.authentications.CsrfExemptSessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 # dj_rest_auth, allauth 회원가입 설정
 REST_USE_JWT = True
@@ -80,12 +80,17 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# 유저, 회원가입, 로그인 커스텀
 AUTH_USER_MODEL = 'user.User'
 
 ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+}
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
 }
 
 # 회원가입 인증 이메일 관련 설정

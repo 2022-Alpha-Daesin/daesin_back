@@ -36,25 +36,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         unique=True,
         max_length=20,
-    )  # 사용자명
+    )  # 사용자명 (필수)
     email = models.EmailField(
         null=True,
         unique=True,
-    )  # 이메일
+    )  # 이메일 (필수)
     nickname = models.CharField(
         null=True,
         unique=True,
         max_length=20,
-    )  # 닉네임
+    )  # 닉네임 (필수)
     grade = models.PositiveIntegerField(
         null=True,
         blank=True,
-    )  # 학년
-    major = models.CharField(
-        null=True,
-        blank=True,
-        max_length=30,
-    )  # 전공
+    )  # 학년 (선택)
     created_at = models.DateTimeField(
         auto_now_add=True
     )  # 유저 레코드가 생성된 일자

@@ -1,7 +1,5 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-User = get_user_model()
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -9,7 +7,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     email = serializers.EmailField(required=True)
     nickname = serializers.CharField(max_length=20, required=True)
     grade = serializers.IntegerField(required=False)
-    major = serializers.CharField(max_length=30, required=True)
+    major = serializers.IntegerField()
 
     def get_cleaned_data(self):
         return {
@@ -20,15 +18,3 @@ class CustomRegisterSerializer(RegisterSerializer):
             'major': self.validated_data.get('major', ''),
             'password1': self.validated_data.get('password1', ''),
         }
-
-class UserAbstractSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'id',
-            'username',
-            'nickname',
-            'grade',
-            'major',
-        ]
-
