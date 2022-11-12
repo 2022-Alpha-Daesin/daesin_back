@@ -32,18 +32,18 @@ class Major(models.Model):
         verbose_name='단과대',
     )
     department = models.CharField(
-        max_length=30,
+        max_length=40,
         null=True,
         verbose_name='학부'
     )
     sub_major = models.CharField(
-        max_length=30,
+        max_length=40,
         null=True,
         verbose_name='전공'
     )
 
     def get_full_major(self):
-        if self.sub_major:
-            return self.get_college_display() + self.department+self.sub_major
-        return self.get_college_display() + self.department
+        if self.sub_major != None:
+            return f'{self.get_college_display()} {self.department} {self.sub_major}'
+        return f'{self.get_college_display()} {self.department}'
     
