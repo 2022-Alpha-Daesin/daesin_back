@@ -5,18 +5,18 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 class UserManager(BaseUserManager):
     """ModelManager definition for User Model"""
 
-    def create_user(self, username, password):
+    def create_user(self, email, password):
         """일반 유저 생성 메소드"""
         user = self.model(
-            username=username,
+            email=email,
         )
         user.set_password(password)
         user.save()
 
-    def create_superuser(self, username, password):
+    def create_superuser(self, email, password):
         """슈퍼 유저(superuser) 생성 메소드"""
         user = self.model(
-            username=username,
+            email=email,
         )
         user.set_password(password)
         user.is_superuser = True
@@ -31,12 +31,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
 
-    username = models.CharField(
-        unique=True,
-        max_length=20,
-    )  # 사용자명 (필수)
+    username = None
+    # username = models.CharField(
+    #     unique=True,
+    #     max_length=20,
+    # )  필수 아니래 얘들아 -강승원
+    # 사용자명 (필수)
     email = models.EmailField(
         null=True,
         unique=True,

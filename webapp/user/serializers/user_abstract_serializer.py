@@ -8,7 +8,6 @@ class UserAbstractSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id',
-            'username',
             'nickname',
             'grade',
         ]
