@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     # migrate에 필요
     'django.contrib.sites',
 
+    #cors
+    'corsheaders',
     # django 회원가입/로그인
     'allauth',
     'allauth.account',
@@ -66,7 +68,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'webapp.authentications.CsrfExemptSessionAuthentication',
+        'config.authentications.CsrfExemptSessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -82,12 +84,18 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+# 유저, 회원가입, 로그인 커스텀
 AUTH_USER_MODEL = 'user.User'
 
 ACCOUNT_ADAPTER = 'user.adapter.CustomAccountAdapter'
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+}
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
 }
 
 # 회원가입 인증 이메일 관련 설정
@@ -102,7 +110,7 @@ EMAIL_USE_TLS = True  # TLS 보안
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_REQUIRED = True
+
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # ACCOUNT_EMAIL_VERIFICATION = "none"
 
@@ -111,6 +119,10 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
+# 로그인시 아이디쓰면 안된데 얘들아- 강승원
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
@@ -138,9 +150,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
-ROOT_URLCONF = "webapp.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
@@ -160,8 +173,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "webapp.wsgi.application"
-
+WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -177,7 +189,8 @@ DATABASES = {
     }
 }
 
-
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDENTIALS = True
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

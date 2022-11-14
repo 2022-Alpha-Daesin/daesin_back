@@ -34,7 +34,7 @@ class Post(models.Model):
         verbose_name='글쓴이',
     )
     type = models.CharField(
-        max_length=5,
+        max_length=1,
         choices=POST_TYPE,
         null=True,
         verbose_name='글 종류',

@@ -1,0 +1,5 @@
+from .user_abstract_serializer import UserAbstractSerializer
+from .custom_register_serializer import CustomRegisterSerializer
+from .custom_login_serializer import CustomLoginSerializer
+from .major_serializer import MajorSerializer
+from .user_major_serializer import UserMajorSerializer
