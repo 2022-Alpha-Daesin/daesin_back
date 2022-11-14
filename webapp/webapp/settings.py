@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "user",
     "post",
+    "review",
 ]
 
 REST_FRAMEWORK = {
@@ -68,7 +69,8 @@ REST_FRAMEWORK = {
         'webapp.authentications.CsrfExemptSessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DATETIME_FORMAT': "%Y-%m-%d / %H:%M:%S",
 }
 # dj_rest_auth, allauth 회원가입 설정
 REST_USE_JWT = True
