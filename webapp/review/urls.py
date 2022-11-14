@@ -1,4 +1,4 @@
-from review.views import ReviewListAPIView, ReviewRetrieveAPIView
+from review.views.review_list_apiview import ReviewListAPIView, ReviewRetrieveAPIView
 from django.urls import path
 
 urlpatterns = [
