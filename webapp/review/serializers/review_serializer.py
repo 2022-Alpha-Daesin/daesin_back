@@ -1,14 +1,27 @@
 from rest_framework.serializers import ModelSerializer
+from post.models import Post
+from review.models import Review
 from post.serializers.post_serializer import PostSerializer
-from review.models.review import Review
 
 
 class ReviewSerializer(ModelSerializer):
-    post = PostSerializer(read_only=True)
+    post = PostSerializer()
 
     class Meta:
         model = Review
-        fields = [
-            'id',
-            'post',
-        ]
+        fields = ['id','post']
+
+    def create(self, validated_data):
+        post_data = validated_data.pop('post')
+        post = Post.objects.create(**post_data, type = validated_data.pop('type'),  author = validated_data.pop('author'))
+        review = self.Meta.model._default_manager.create(post = post)
+        return review
+    
+    def update(self, instance, validated_data):
+        post_data = validated_data.pop('post')
+        post = instance.post
+        post.title = post_data.get('title',post.title)
+        post.content = post_data.get('content',post.content)
+        post.save(update_fields=['title','content','updated_at'])
+        return instance
+    
