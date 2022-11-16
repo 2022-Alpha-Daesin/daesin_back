@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from post.serializers import PostSerializer
+from post.serializers.post_serializer import PostSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from post.models import Post
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
