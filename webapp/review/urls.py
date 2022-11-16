@@ -1,8 +1,9 @@
-from review.views.review_list_apiview import ReviewListAPIView
-from review.views.review_retrieve_apiview import ReviewRetrieveAPIView
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+from review.views.review_viewset import ReviewViewSet
 
-urlpatterns = [
-    path('', ReviewListAPIView.as_view()),
-    path('<int:pk>', ReviewRetrieveAPIView.as_view()),
-]
+router = DefaultRouter()
+router.register('', ReviewViewSet, basename='Review')
+
+urlpatterns = []
+
+urlpatterns += router.urls
