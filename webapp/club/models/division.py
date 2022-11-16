@@ -11,4 +11,5 @@ class Division(models.Model):
     major = models.ForeignKey(
         Major,
         on_delete=models.CASCADE,
+        null=True,
     )
