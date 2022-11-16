@@ -1,6 +1,5 @@
 from django.db import models
 from post.models import Post
-from club.models import Club
 
 
 class ClubPost(models.Model):
@@ -15,7 +14,7 @@ class ClubPost(models.Model):
         related_name="clubpost",
     )
     club = models.ForeignKey(
-        Club,
+        "club.Club",
         on_delete=models.CASCADE,
         related_name="club",
     )

@@ -6,9 +6,9 @@ class Image(models.Model):
     """Model definition for Image."""
 
     class Meta:
-        db_table = 'posts'
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
+        db_table = 'images'
+        verbose_name = 'Image'
+        verbose_name_plural = 'Images'
 
     image = models.ImageField(
         upload_to="post_image",

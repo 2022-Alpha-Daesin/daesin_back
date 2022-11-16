@@ -1,5 +1,4 @@
 from django.db import models
-from club.models import Division
 import datetime
 
 
@@ -10,7 +9,7 @@ class Club(models.Model):
         verbose_name_plural = 'Clubs'
 
     division = models.ForeignKey(
-        Division,
+        "club.Division",
         on_delete=models.CASCADE,
         verbose_name="구분"
     )
