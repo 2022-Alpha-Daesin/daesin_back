@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "user",
     "post",
     "review",
+    "club",
 ]
 
 REST_FRAMEWORK = {
