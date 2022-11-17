@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from post.models import Post
 from review.models import Review
-from post.serializers.post_serializer import PostSerializer
+from post.serializers import PostSerializer
 
 
 class ReviewSerializer(ModelSerializer):
@@ -9,7 +9,10 @@ class ReviewSerializer(ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ['id', 'post']
+        fields = [
+            'id',
+            'post',
+        ]
 
     def create(self, validated_data):
         post_data = validated_data.pop('post')
