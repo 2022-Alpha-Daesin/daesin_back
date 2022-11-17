@@ -36,5 +36,6 @@ urlpatterns = [
     path('post/', include('post.urls'), name='posts'),
     path('user/', include('user.urls'), name='users'),
     path('review/', include('review.urls'), name="reviews"),
+    path('club/', include('club.urls'), name="clubs"),
 
 ]

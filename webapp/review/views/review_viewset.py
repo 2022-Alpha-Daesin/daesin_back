@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from review.serializers.review_serializer import ReviewSerializer
 from review.models import Review
-from post.models import Post
 
 
 class ReviewViewSet(ModelViewSet):
@@ -19,4 +18,4 @@ class ReviewViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance.post)
-        return Response(status=status.HTTP_204_NO_CONTENT) 
+        return Response(status=status.HTTP_204_NO_CONTENT)
