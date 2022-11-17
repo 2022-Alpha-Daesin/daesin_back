@@ -1,18 +1,17 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
-from review.serializers.review_serializer import ReviewSerializer
-from review.models import Review
-from post.models import Post
+from ad.serializers.ad_serializer import ADSerializer
+from ad.models import Advertisement
 
 
-class ReviewViewSet(ModelViewSet):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+class ADViewSet(ModelViewSet):
+    queryset = Advertisement.objects.all()
+    serializer_class = ADSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(author=self.request.user, type="R")
-    
+        return serializer.save(author=self.request.user, type="A")
+
     def perform_update(self, serializer):
         return serializer.save(author=self.request.user)
 
