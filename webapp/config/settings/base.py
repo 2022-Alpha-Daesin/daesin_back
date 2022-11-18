@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "post",
     "review",
     "club",
+    "ad",
 ]
 
 REST_FRAMEWORK = {
@@ -220,7 +221,7 @@ TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDENTIALS = True
