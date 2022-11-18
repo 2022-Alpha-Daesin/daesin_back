@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from review.serializers.review_serializer import ReviewSerializer
 from review.models import Review
-from post.models import Post
 
 
 class ReviewViewSet(ModelViewSet):
