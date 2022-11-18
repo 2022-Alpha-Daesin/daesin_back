@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     "review",
 ]
 
+CUSTOM_ACCOUNT_CONFIRM_EMAIL_URL = "http://localhost:3000/verifyemail/?key={0}"
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.SessionAuthentication',
@@ -99,6 +101,7 @@ REST_AUTH_SERIALIZERS = {
 }
 
 # 회원가입 인증 이메일 관련 설정
+URL_FRONT = 'http://localhost:3000/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

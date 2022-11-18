@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 
@@ -9,8 +11,9 @@ class ConfirmEmailView(APIView):
     def get(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
+        print("??",self.object)
         # A React Router Route will handle the failure scenario
-        return HttpResponseRedirect('/') # 인증성공
+        return Response(status=status.HTTP_200_OK) # 인증성공
 
     def get_object(self, queryset=None):
         key = self.kwargs['key']
@@ -22,7 +25,7 @@ class ConfirmEmailView(APIView):
                 email_confirmation = queryset.get(key=key.lower())
             except EmailConfirmation.DoesNotExist:
                 # A React Router Route will handle the failure scenario
-                return HttpResponseRedirect('/') # 인증실패
+                return Response({'Error':'인증 실패'},status=status.HTTP_400_OK) # 인증실패
         return email_confirmation
 
     def get_queryset(self):
