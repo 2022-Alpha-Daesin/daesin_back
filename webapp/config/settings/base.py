@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     "user",
     "post",
     "review",
+    "club",
+    "ad",
 ]
 
 CUSTOM_ACCOUNT_CONFIRM_EMAIL_URL = "http://localhost:3000/verifyemail/?key={0}"
@@ -222,7 +224,7 @@ TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDENTIALS = True

@@ -1,3 +1,10 @@
 from django.contrib import admin
+from review.models import Review
 
-# Register your models here.
+
+@admin.register(Review)
+class ClubAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'post',
+    )

@@ -43,7 +43,12 @@ class Major(models.Model):
     )
 
     def get_full_major(self):
-        if self.sub_major != None:
+        if self.sub_major is not None:
             return f'{self.get_college_display()} {self.department} {self.sub_major}'
         return f'{self.get_college_display()} {self.department}'
-    
+
+    def __str__(self):
+        if self.sub_major is None:
+            return f"{self.department}"
+        else:
+            return f"{self.department} / {self.sub_major}"

@@ -1,5 +1,4 @@
 from django.db import models
-import review
 from user.models import User
 
 
@@ -13,7 +12,6 @@ class Post(models.Model):
 
     POST_TYPE = (
         ('R', 'review'),
-        ('C', 'clubpost'),
         ('A', 'advertisement'),
     )
 
@@ -48,8 +46,5 @@ class Post(models.Model):
         verbose_name='수정 일시',
     )
 
-    # post 에서 type이 R인 객체 생성시 review table 에도 객체 생성
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.type == "R":
-            review.models.Review.objects.create(post_id = self.id)
+    def __str__(self):
+        return f"{self.title}"

@@ -17,6 +17,7 @@ class PostSerializer(ModelSerializer):
             'created_at',
             'updated_at'
         ]
+        read_only_fields = ['type']
         extra_kwargs = {
             'title': {
                 'error_messages': {

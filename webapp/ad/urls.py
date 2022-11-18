@@ -1,8 +1,8 @@
 from rest_framework.routers import DefaultRouter
-from review.views.review_viewset import ReviewViewSet
+from ad.views.ad_viewset import ADViewSet
 
 router = DefaultRouter()
-router.register('', ReviewViewSet, basename='Review')
+router.register('', ADViewSet, basename='AD')
 
 urlpatterns = []
 
