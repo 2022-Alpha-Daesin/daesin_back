@@ -12,7 +12,6 @@ class Post(models.Model):
 
     POST_TYPE = (
         ('R', 'review'),
-        ('C', 'clubpost'),
         ('A', 'advertisement'),
     )
 
