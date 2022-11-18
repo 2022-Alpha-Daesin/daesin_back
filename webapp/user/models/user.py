@@ -13,10 +13,11 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, nickname, password):
         """슈퍼 유저(superuser) 생성 메소드"""
         user = self.model(
             email=email,
+            nickname=nickname,
         )
         user.set_password(password)
         user.is_superuser = True
@@ -34,34 +35,36 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     username = None
-    # username = models.CharField(
-    #     unique=True,
-    #     max_length=20,
-    # )  필수 아니래 얘들아 -강승원
-    # 사용자명 (필수)
+
     email = models.EmailField(
-        null=True,
         unique=True,
-    )  # 이메일 (필수)
+        verbose_name="이메일",
+    )
     nickname = models.CharField(
-        null=True,
         unique=True,
         max_length=20,
-    )  # 닉네임 (필수)
+        verbose_name="닉네임",
+    )
     grade = models.PositiveIntegerField(
         null=True,
         blank=True,
-    )  # 학년 (선택)
+        verbose_name="학년",
+    )
     created_at = models.DateTimeField(
-        auto_now_add=True
-    )  # 유저 레코드가 생성된 일자
+        auto_now_add=True,
+        verbose_name="계정 생성 일자"
+    )
     updated_at = models.DateTimeField(
-        auto_now=True
-    )  # 유저 레코드가 수정된 일자
+        auto_now=True,
+        verbose_name="계정 수정 일자",
+    )
 
     is_active = models.BooleanField(
         default=True
-        )
+    )
+    # createsuperuser 시 물어 보는 field 추가 (nickname은 null False 이기 때문)
+    REQUIRED_FIELDS = ['nickname']
+
     objects = UserManager()
 
     @property

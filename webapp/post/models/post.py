@@ -1,5 +1,4 @@
 from django.db import models
-import review
 from user.models import User
 
 
@@ -13,7 +12,6 @@ class Post(models.Model):
 
     POST_TYPE = (
         ('R', 'review'),
-        ('C', 'clubpost'),
         ('A', 'advertisement'),
     )
 
@@ -48,4 +46,5 @@ class Post(models.Model):
         verbose_name='수정 일시',
     )
 
- 
+    def __str__(self):
+        return f"{self.title}"
