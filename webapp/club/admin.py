@@ -1,5 +1,5 @@
 from django.contrib import admin
-from club.models import Club
+from club.models import Club, Division
 
 
 @admin.register(Club)
@@ -23,3 +23,6 @@ class ClubAdmin(admin.ModelAdmin):
         'recruitment_period_start',
         'recruitment_period_end',
     )
+
+
+admin.site.register(Division)
