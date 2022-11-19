@@ -2,24 +2,24 @@ from django.db.models import Q
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 
-from relationship.models import Like
-from relationship.serializers import LikeSerializer
+from relationship.models import Scrap
+from relationship.serializers import ScrapSerializer
 
 
-class LikeViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin,
+class ScrapViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin,
                   viewsets.GenericViewSet):
-    queryset = Like.objects.all()
-    serializer_class = LikeSerializer
+    queryset = Scrap.objects.all()
+    serializer_class = ScrapSerializer
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        if Like.objects.filter(Q(user=self.request.user) & Q(post=self.request.POST['post'])).exists():
+        if Scrap.objects.filter(Q(user=self.request.user) & Q(post=self.request.POST['post'])).exists():
             return Response(
                 {
-                    'error': '사용자가 이미 좋아요를 눌렀습니다.'
-                 }
+                    'error': '사용자가 이미 스크랩을 하였습니다.'
+                }
             )
         else:
             serializer = self.get_serializer(data=request.data)

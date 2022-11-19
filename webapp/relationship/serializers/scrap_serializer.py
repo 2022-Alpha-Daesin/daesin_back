@@ -1,14 +1,14 @@
 from rest_framework.serializers import ModelSerializer
 
-from relationship.models import Like
+from relationship.models import Scrap
 from user.serializers import UserAbstractSerializer
 
 
-class LikeSerializer(ModelSerializer):
+class ScrapSerializer(ModelSerializer):
     user = UserAbstractSerializer(read_only=True)
 
     class Meta:
-        model = Like
+        model = Scrap
         fields = [
             'id',
             'post',
