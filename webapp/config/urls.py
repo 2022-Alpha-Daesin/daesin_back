@@ -5,6 +5,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from dj_rest_auth.registration.views import VerifyEmailView
 from user.views import ConfirmEmailView
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -38,4 +40,4 @@ urlpatterns = [
     path('review/', include('review.urls'), name="reviews"),
     path('ad/', include('ad.urls'), name='ads'),
     path('club/', include('club.urls'), name="clubs"),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
