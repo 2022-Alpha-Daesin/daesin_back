@@ -3,11 +3,11 @@ from post.models import Post
 from user.models import User
 
 
-class Scrap(models.Model):
+class Like(models.Model):
     class Meta:
-        db_table = 'scraps'
-        verbose_name = 'Scrap'
-        verbose_name_plural = 'Scraps'
+        db_table = 'likes'
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
 
     post = models.ForeignKey(
         Post,
