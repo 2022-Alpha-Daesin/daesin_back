@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "review",
     "club",
     "ad",
+    "tag",
 ]
 
 REST_FRAMEWORK = {
