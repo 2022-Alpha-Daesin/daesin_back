@@ -12,8 +12,10 @@ class Scrap(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
+        verbose_name="스크랩 하는 글",
     )
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name="스크랩 하는 유저",
     )

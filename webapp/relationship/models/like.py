@@ -12,8 +12,10 @@ class Like(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
+        verbose_name="좋아요 누르는 글",
     )
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name="좋아요 누르는 유저",
     )

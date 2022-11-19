@@ -28,12 +28,15 @@ class Comment(models.Model):
         null=True,
         blank=True,
         related_name="reply",
+        verbose_name="대댓글이 참조하는 댓글",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
+        verbose_name="댓글 작성 시간",
     )
     updated_at = models.DateTimeField(
         auto_now_add=True,
+        verbose_name="댓글 수정 시간",
     )
 
     def __str__(self):
