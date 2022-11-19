@@ -3,7 +3,7 @@ from club.models import Club
 from tag.models import Tag
 
 
-class PostTag(models.Model):
+class ClubTag(models.Model):
     class Meta:
         db_table = 'club_tags'
         verbose_name = 'ClubTag'
