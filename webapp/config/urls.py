@@ -38,5 +38,6 @@ urlpatterns = [
     path('review/', include('review.urls'), name="reviews"),
     path('ad/', include('ad.urls'), name='ads'),
     path('club/', include('club.urls'), name="clubs"),
-    path('comment/', include('relationship.urls.comment'), name="comment"),
+    path('comment/', include('relationship.urls.comment'), name="comments"),
+    path('like/', include('relationship.urls.like'), name="likes"),
 ]
