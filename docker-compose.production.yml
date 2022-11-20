@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   nginx:
     build:
       context: ./nginx
@@ -36,6 +35,11 @@ services:
     restart: always
     entrypoint:
       - /docker-entrypoint.production.sh
+    command: >
+      bash -c "python ./manage.py makemigrations --noinput &&
+               python ./manage.py migrate --noinput &&
+               python ./manage.py collectstatic --noinput &&
+               gunicorn config.wsgi:application --env DJANGO_SETTINGS_MODULE=config.settings.prod --bind 0.0.0.0:8000"
     volumes:
       - ./webapp:/srv/docker-server
       - ./log:/var/log/uwsgi
