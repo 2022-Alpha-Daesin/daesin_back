@@ -1,1 +1,2 @@
 from .post_serializer import PostSerializer
+from .image_serializer import ImageSerializer
