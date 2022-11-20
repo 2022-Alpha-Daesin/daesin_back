@@ -12,9 +12,11 @@ class ClubTag(models.Model):
     club = models.ForeignKey(
         Club,
         on_delete=models.CASCADE,
+        related_name='club_tags'
     )
     tag = models.ForeignKey(
         Tag,
         on_delete=models.CASCADE,
+        related_name='club_tags'
     )
 
