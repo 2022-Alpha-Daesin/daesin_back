@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "review",
     "club",
     "ad",
+    "relationship",
 ]
 
 REST_FRAMEWORK = {
@@ -84,7 +85,6 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 SITE_ID = 1
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 # 유저, 회원가입, 로그인 커스텀
@@ -98,9 +98,11 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailSerializer',
 }
 
 # 회원가입 인증 이메일 관련 설정
+URL_FRONT = 'http://localhost:3000/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -121,7 +123,6 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
-# 로그인시 아이디쓰면 안된데 얘들아- 강승원
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False

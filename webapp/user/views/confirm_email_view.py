@@ -1,31 +1,32 @@
-from django.http import HttpResponseRedirect
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
+from rest_framework import status
+from rest_framework.response import Response
+from dj_rest_auth.registration.views import VerifyEmailView
+from django.utils.translation import gettext_lazy as _
+from allauth.account.models import EmailAddress, EmailConfirmation, EmailConfirmationHMAC
 
-class ConfirmEmailView(APIView):
-    permission_classes = [AllowAny]
-
-    def get(self, *args, **kwargs):
-        self.object = confirmation = self.get_object()
-        confirmation.confirm(self.request)
-        # A React Router Route will handle the failure scenario
-        return HttpResponseRedirect('/') # 인증성공
-
+class ConfirmEmailView(VerifyEmailView):
+    
+    
     def get_object(self, queryset=None):
-        key = self.kwargs['key']
-        email_confirmation = EmailConfirmationHMAC.from_key(key)
-        if not email_confirmation:
+        key = self.kwargs["key"]
+        emailconfirmation = EmailConfirmationHMAC.from_key(key)
+        if not emailconfirmation:
             if queryset is None:
                 queryset = self.get_queryset()
             try:
-                email_confirmation = queryset.get(key=key.lower())
+                emailconfirmation = queryset.get(key=key.lower())
             except EmailConfirmation.DoesNotExist:
-                # A React Router Route will handle the failure scenario
-                return HttpResponseRedirect('/') # 인증실패
-        return email_confirmation
+                return None
+        return emailconfirmation
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.kwargs['key'] = serializer.validated_data['key']
+        confirmation = self.get_object()
+        if confirmation == None:
+            return Response({'msg':'emailconfirmation does not exist'},status.HTTP_404_NOT_FOUND)
+        confirmation.confirm(self.request)
+        return Response({'detail': _('ok')}, status=status.HTTP_200_OK)
 
-    def get_queryset(self):
-        qs = EmailConfirmation.objects.all_valid()
-        qs = qs.select_related("email_address__user")
-        return qs
+
