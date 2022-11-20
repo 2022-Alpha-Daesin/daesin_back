@@ -65,8 +65,6 @@ INSTALLED_APPS = [
     "ad",
 ]
 
-CUSTOM_ACCOUNT_CONFIRM_EMAIL_URL = "http://localhost:3000/verifyemail/?key={0}"
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.SessionAuthentication',
@@ -86,7 +84,6 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 SITE_ID = 1
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 # 유저, 회원가입, 로그인 커스텀
@@ -124,7 +121,6 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
-# 로그인시 아이디쓰면 안된데 얘들아- 강승원
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
