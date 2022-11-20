@@ -99,6 +99,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailSerializer',
 }
 
 # 회원가입 인증 이메일 관련 설정

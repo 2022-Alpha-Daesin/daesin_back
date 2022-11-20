@@ -3,3 +3,4 @@ from .custom_register_serializer import CustomRegisterSerializer
 from .custom_login_serializer import CustomLoginSerializer
 from .major_serializer import MajorSerializer
 from .user_major_serializer import UserMajorSerializer
+from .custom_user_detail_serializer import CustomUserDetailSerializer
