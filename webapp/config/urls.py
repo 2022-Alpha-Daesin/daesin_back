@@ -4,6 +4,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from user.views import ConfirmEmailView
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -37,4 +39,4 @@ urlpatterns = [
     path('comment/', include('relationship.urls.comment'), name="comments"),
     path('like/', include('relationship.urls.like'), name="likes"),
     path('scrap/', include('relationship.urls.scrap'), name="scraps"),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
