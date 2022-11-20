@@ -1,4 +1,5 @@
 from django.db import models
+
 from post.models import Post
 from user.models import User
 
@@ -13,6 +14,7 @@ class Scrap(models.Model):
         Post,
         on_delete=models.CASCADE,
         verbose_name="스크랩 하는 글",
+        related_name="scrap",
     )
     user = models.ForeignKey(
         User,
