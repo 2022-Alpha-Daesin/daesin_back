@@ -16,7 +16,6 @@ class Advertisement(models.Model):
     )
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    is_club = models.BooleanField(null=True, blank=True)
     club = models.ForeignKey(
         Club,
         null=True,

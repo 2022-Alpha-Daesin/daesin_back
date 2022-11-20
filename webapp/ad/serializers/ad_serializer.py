@@ -9,7 +9,7 @@ class ADSerializer(ModelSerializer):
 
     class Meta:
         model = Advertisement
-        fields = ['id', 'post', 'start_date', 'end_date', 'is_club', 'club']
+        fields = ['id', 'post', 'start_date', 'end_date', 'club']
 
     def create(self, validated_data):
         post_data = validated_data.pop('post')
@@ -17,16 +17,15 @@ class ADSerializer(ModelSerializer):
         advertisement = self.Meta.model._default_manager.create(post=post,
                                                                 start_date=validated_data.pop('start_date'),
                                                                 end_date=validated_data.pop('end_date'),
-                                                                is_club=validated_data.get('is_club', False),
                                                                 club=validated_data.get('club', None))
         return advertisement
 
     def update(self, instance, validated_data):
-        # start_date, end_date 어떻게...?
         post_data = validated_data.pop('post')
         post = instance.post
         post.title = post_data.get('title', post.title)
         post.content = post_data.get('content', post.content)
         post.save(update_fields=['title', 'content', 'updated_at'])
+        instance.club = None
         instance = super().update(instance, validated_data)
         return instance
