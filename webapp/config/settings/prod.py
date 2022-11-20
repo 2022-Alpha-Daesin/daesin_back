@@ -21,3 +21,5 @@ LOGGING = {
         },
     },
 }
+
+URL_FRONT = '실배포 프론트'

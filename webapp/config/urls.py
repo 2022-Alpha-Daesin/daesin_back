@@ -3,7 +3,6 @@ from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from dj_rest_auth.registration.views import VerifyEmailView
 from user.views import ConfirmEmailView
 
 schema_view = get_schema_view(
@@ -20,11 +19,8 @@ schema_view = get_schema_view(
 urlpatterns = [
 
     path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/verify-email/',ConfirmEmailView.as_view(),name="rest_resend_email" ),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
-    # 유효한 이메일이 유저에게 전달
-    re_path(r'^account-confirm-email/$', VerifyEmailView.as_view(), name='account_email_verification_sent'),
-    # 유저가 클릭한 이메일(=링크) 확인
-    re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', ConfirmEmailView.as_view(), name='account_confirm_email'),
 
     # swagger 설정
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
