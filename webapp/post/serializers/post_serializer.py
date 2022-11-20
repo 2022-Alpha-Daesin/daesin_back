@@ -1,10 +1,15 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
+
 from post.models import Post
 from user.serializers import UserAbstractSerializer
 
 
 class PostSerializer(ModelSerializer):
+    # like = serializers.StringRelatedField(many=True, read_only=True)
+
     author = UserAbstractSerializer(read_only=True)
+    like_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
@@ -15,7 +20,9 @@ class PostSerializer(ModelSerializer):
             'author',
             'type',
             'created_at',
-            'updated_at'
+            'updated_at',
+            # 'like',
+            'like_count',
         ]
         read_only_fields = ['type']
         extra_kwargs = {
@@ -30,3 +37,6 @@ class PostSerializer(ModelSerializer):
                 }
             }
         }
+
+    def get_like_count(self, post):
+        return post.like.count()

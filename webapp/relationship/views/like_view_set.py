@@ -19,7 +19,7 @@ class LikeViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.Des
             return Response(
                 {
                     'error': '사용자가 이미 좋아요를 눌렀습니다.'
-                 }
+                }
             )
         else:
             serializer = self.get_serializer(data=request.data)
