@@ -8,7 +8,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get -y update
 
-RUN mkdir /srv
 ADD . /srv
 
 WORKDIR /srv
