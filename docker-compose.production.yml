@@ -45,6 +45,9 @@ services:
       - ./log:/var/log/uwsgi
       - staticfiles:/srv/docker-server/static
       - mediafiles:/srv/docker-server/media
+
+    expose:
+      - "8000"
 #    depends_on:
 #      - mysql
 #
