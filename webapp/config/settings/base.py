@@ -10,13 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
 from datetime import timedelta
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -25,10 +25,9 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -46,12 +45,12 @@ INSTALLED_APPS = [
     # migrate에 필요
     'django.contrib.sites',
 
-    #cors
+    # cors
     'corsheaders',
     # django 회원가입/로그인
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', # 이거 없으면 유저 delete할때 에러난다고 해서 포함
+    'allauth.socialaccount',  # 이거 없으면 유저 delete할때 에러난다고 해서 포함
     'dj_rest_auth',
     'dj_rest_auth.registration',
 
@@ -183,16 +182,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get("DATABASES_NAME"),
         'USER': os.environ.get("DATABASES_USER"),
         'PASSWORD': os.environ.get("DATABASES_PASSWORD"),
-        'HOST': 'mysql',
-        'PORT': '3308',
+        'HOST': os.environ.get("DATABASES_HOST"),
+        'PORT': '3306',
     }
 }
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -212,7 +211,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -224,7 +222,7 @@ USE_I18N = True
 
 USE_TZ = False
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -244,7 +242,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -262,7 +259,6 @@ LOGGING = {
         },
     },
 }
-
 
 JAZZMIN_SETTINGS = {
     'site_title': 'Daesin',
