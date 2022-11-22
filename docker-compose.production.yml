@@ -17,8 +17,8 @@ services:
       - /docker-entrypoint.production.sh
     volumes:
       - ./log:/var/log/nginx
-      - staticfiles:/static
-      - mediafiles:/media
+      - ./webapp/staticfiles:/static
+      - ./webapp/mediafiles:/media
 
   django:
     build:
@@ -30,8 +30,8 @@ services:
       - /docker-entrypoint.production.sh
     volumes:
       - ./webapp:/srv
-      - staticfiles:/srv/static
-      - mediafiles:/srv/media
+      - ./webapp/staticfiles:/srv/static
+      - ./webapp/mediafiles:/srv/media
 
 volumes:
   staticfiles:
