@@ -9,7 +9,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./webapp:/srv/docker-server
+      - ./webapp:/srv
       - ./log:/var/log/nginx
       - staticfiles:/srv/static
       - mediafiles:/srv/media
