@@ -5,4 +5,4 @@ python manage.py migrate --noinput
 
 python manage.py collectstatic --noinput
 
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
+gunicorn config.wsgi:application --env DJANGO_SETTINGS_MODULE=config.settings.prod --bind 0.0.0.0:8000
