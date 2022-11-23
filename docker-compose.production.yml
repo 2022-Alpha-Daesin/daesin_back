@@ -4,11 +4,10 @@ services:
     build:
       context: ./nginx
       dockerfile: ./Dockerfile.production
-    image: docker-server/nginx
+    image: nginx
     restart: always
     ports:
       - "80:80"
-
     depends_on:
       - django
     links:
@@ -24,7 +23,7 @@ services:
     build:
       context: ./webapp
       dockerfile: ./Dockerfile.production
-    image: docker-server/django
+    image: django
     restart: always
     entrypoint:
       - /docker-entrypoint.production.sh
@@ -36,4 +35,3 @@ services:
 volumes:
   staticfiles:
   mediafiles:
-
