@@ -8,10 +8,9 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get -y update
 
-RUN mkdir /srv/docker-server
-ADD . /srv/docker-server
+ADD . /srv
 
-WORKDIR /srv/docker-server
+WORKDIR /srv
 # 작업공간 이동 (=cd)
 
 RUN pip install --upgrade pip

@@ -59,4 +59,3 @@ class Command(BaseCommand):
                 for sub_major in sub_majors:
                     sub_major = sub_major.get_text()
                     create_sub_major(db_college, major_title, sub_major)
-
