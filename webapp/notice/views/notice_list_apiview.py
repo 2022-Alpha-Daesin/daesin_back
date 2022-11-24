@@ -111,6 +111,25 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 일본학과
+    def japan(self):
+        result = []
+        baseUrl = 'https://cha.kookmin.ac.kr/japan/japan_notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('td', class_='subject title')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "일본학과",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
     # 정치외교학과
     def politics(self):
         result = []
