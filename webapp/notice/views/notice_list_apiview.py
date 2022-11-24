@@ -396,38 +396,76 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
-    # 산림환경시스템학과
-    def forest_environment(self):
-        result = []
-        baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=219'
-        res = requests.get(baseUrl)
-        soup = bs(res.content, 'html.parser')
-        notice = soup.find_all('td', class_='subject title')[:5]
-        for notice_id, n in enumerate(notice):
-            notice_title = escape_ansi(n.get_text())
-            notice_link = baseUrl + n.find('a', href=True)['href']
-            notice_obj = {
-                'id': notice_id + 1,
-                'major': "산림환경시스템학과",
-                'title': notice_title,
-                'url': notice_link,
-            }
-            result.append(notice_obj)
-        return {"result": result}
-
     # 임산생명공학과
     def bio_tech(self):
         result = []
         baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=220'
         res = requests.get(baseUrl)
         soup = bs(res.content, 'html.parser')
+        notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "임산생명공학과",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 과학기술대학(산림환경시스템학과, 나노전자물리학과, 응용화학과)
+    def science_tech(self):
+        result = []
+        baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=221'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
         notice = soup.find_all('td', class_='subject title')[:5]
         for notice_id, n in enumerate(notice):
             notice_title = escape_ansi(n.get_text())
             notice_link = baseUrl + n.find('a', href=True)['href']
             notice_obj = {
                 'id': notice_id + 1,
-                'major': "임산생명공학과",
+                'major': "과학기술대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 정보보안암호수학과
+    def security_mathematics(self):
+        result = []
+        baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=223'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "정보보안암호수학과",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 바이오발효융합학과
+    def bio_fusion(self):
+        result = []
+        baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=225'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "바이오발융합학과",
                 'title': notice_title,
                 'url': notice_link,
             }

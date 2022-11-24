@@ -357,9 +357,9 @@ def bio_tech():
     baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=220'
     res = requests.get(baseUrl)
     soup = bs(res.content, 'html.parser')
-    notice = soup.find_all('td', class_='subject title')[:5]
+    notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
     for notice_id, n in enumerate(notice):
-        notice_title = escape_ansi(n.get_text())
+        notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
         notice_link = baseUrl + n.find('a', href=True)['href']
         notice_obj = {
             'id': notice_id + 1,
@@ -371,4 +371,61 @@ def bio_tech():
     return {"result": result}
 
 
-print(bio_tech())
+def nano():
+    result = []
+    baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=221'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('td', class_='subject title')[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.get_text())
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "나노전자물리학과",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+def security_mathematics():
+    result = []
+    baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=223'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "정보보안암호수학과",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+def bio_fusion():
+    result = []
+    baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=225'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find('tbody', class_=False).find_all('tr', class_=False)[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.find('td', class_='subject title').find('a').get_text())
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "바이오발융합학과",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(bio_fusion())
