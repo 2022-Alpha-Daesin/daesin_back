@@ -314,4 +314,23 @@ def industrial_degisn():
     return {"result": result}
 
 
-print(industrial_degisn())
+def metal_craft():
+    result = []
+    baseUrl = 'http://mcraft.kookmin.ac.kr/?page_id=516'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('div', class_='cut_strings')[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.get_text())
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "행정학과",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(metal_craft())
