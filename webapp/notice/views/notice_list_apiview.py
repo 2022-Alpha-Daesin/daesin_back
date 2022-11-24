@@ -377,6 +377,25 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 조형대학(시각디자인학과, 도자공예학과, 의상디자인학과, 공간디자인학과, 영상디자인학과, 자동차운송디자인학과, AI디자인학과)
+    def design(self):
+        result = []
+        baseUrl = 'https://design.kookmin.ac.kr/community/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find('ul', class_='article-list bar-type').find_all('li', class_=False)
+        for notice_id, n in enumerate(notice):
+            notice_title = n.find('a').find('strong').get_text()
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "조형대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
 
 # 이스케이프 문자 제거
 def escape_ansi(line):

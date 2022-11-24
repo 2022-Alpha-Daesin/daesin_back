@@ -333,4 +333,23 @@ def metal_craft():
     return {"result": result}
 
 
-print(metal_craft())
+def design():
+    result = []
+    baseUrl = 'https://design.kookmin.ac.kr/community/notice/'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find('ul', class_='article-list bar-type').find_all('li', class_=False)
+    for notice_id, n in enumerate(notice):
+        notice_title = n.find('a').find('strong').get_text()
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "조형대학",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(design())
