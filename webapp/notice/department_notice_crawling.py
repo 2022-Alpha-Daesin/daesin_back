@@ -352,9 +352,9 @@ def design():
     return {"result": result}
 
 
-def forest_environment():
+def bio_tech():
     result = []
-    baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=219'
+    baseUrl = 'https://cst.kookmin.ac.kr/community/notice/?sc=220'
     res = requests.get(baseUrl)
     soup = bs(res.content, 'html.parser')
     notice = soup.find_all('td', class_='subject title')[:5]
@@ -363,7 +363,7 @@ def forest_environment():
         notice_link = baseUrl + n.find('a', href=True)['href']
         notice_obj = {
             'id': notice_id + 1,
-            'major': "산림환경시스템학과",
+            'major': "임산생명공학과",
             'title': notice_title,
             'url': notice_link,
         }
@@ -371,4 +371,4 @@ def forest_environment():
     return {"result": result}
 
 
-print(forest_environment())
+print(bio_tech())
