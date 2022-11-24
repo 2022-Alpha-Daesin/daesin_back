@@ -29,9 +29,9 @@ def software():
     return {'result': result}
 
 
-def lib():
+def english():
     result = []
-    baseUrl = 'https://cha.kookmin.ac.kr/community/college/notice/'
+    baseUrl = 'https://cha.kookmin.ac.kr/english/english_notice/'
     res = requests.get(baseUrl)
     soup = bs(res.content, 'html.parser')
     notice = soup.find_all('td', class_='subject title')[:5]
@@ -40,7 +40,7 @@ def lib():
         notice_link = baseUrl + n.find('a', href=True)['href']
         notice_obj = {
             'id': notice_id + 1,
-            'major': "글로벌인문지역대학",
+            'major': "영어영문학부",
             'title': notice_title,
             'url': notice_link,
         }
@@ -162,4 +162,23 @@ def economics_commerce():
     return {"result": result}
 
 
-print(economics_commerce())
+def korean():
+    result = []
+    baseUrl = 'https://cha.kookmin.ac.kr/korea/korea_notice/'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('td', class_='subject title')[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.get_text()).replace("\xa0", "")
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "한국어문학부",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(korean())

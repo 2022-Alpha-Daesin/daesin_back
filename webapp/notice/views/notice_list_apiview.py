@@ -17,7 +17,7 @@ class NoticeListAPIView(ListAPIView):
         return Response(self.public_administration())
 
     # 소프트웨어융합대학(소프트웨어학부, 인공지능학부)
-    def sof(self):
+    def software(self):
         result = []
         baseUrl = 'https://cs.kookmin.ac.kr/news/notice/'
         res = requests.get(baseUrl)
@@ -35,10 +35,10 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
-    # 글로인문지역대학 (한국어문학부, 영어영문학부, 중국학부, 한국역사학과, 일본학과)
-    def lib(self):
+    # 영어영문학부
+    def english(self):
         result = []
-        baseUrl = 'https://cha.kookmin.ac.kr/community/college/notice/'
+        baseUrl = 'https://cha.kookmin.ac.kr/english/english_notice/'
         res = requests.get(baseUrl)
         soup = bs(res.content, 'html.parser')
         notice = soup.find_all('td', class_='subject title')[:5]
@@ -47,7 +47,26 @@ class NoticeListAPIView(ListAPIView):
             notice_link = baseUrl + n.find('a', href=True)['href']
             notice_obj = {
                 'id': notice_id + 1,
-                'major': "글로벌인문지역대학",
+                'major': "영어영문학부",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 한국어문학부
+    def korean(self):
+        result = []
+        baseUrl = 'https://cha.kookmin.ac.kr/korea/korea_notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('td', class_='subject title')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text()).replace("\xa0", "")
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "한국어문학부",
                 'title': notice_title,
                 'url': notice_link,
             }
