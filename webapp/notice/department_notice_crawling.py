@@ -67,4 +67,23 @@ def public_administration():
     return {"result": result}
 
 
-print(public_administration())
+def sociology():
+    result = []
+    baseUrl = 'https://kmusoc.kookmin.ac.kr/kmusoc/etc-board/major_notice.do'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('div', class_='b-title-box')[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.find('a', href=True)['title'])
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "행정학과",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(sociology())
