@@ -301,6 +301,44 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 건설시스템공학부
+    def civil_environmental_engineering(self):
+        result = []
+        baseUrl = 'https://cee.kookmin.ac.kr/site/board/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')
+        notice = soup.find_all('td', class_='subject')
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text()).replace('\r', '')
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "건설시스템공학부",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {'result': result}
+
+    # 전자공학부
+    def electronics(self):
+        result = []
+        baseUrl = 'https://ee.kookmin.ac.kr/community/board/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('td', class_='subject')
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "전자공학부",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {'result': result}
+
 
 # 이스케이프 문자 제거
 def escape_ansi(line):
