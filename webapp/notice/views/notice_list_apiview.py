@@ -14,7 +14,7 @@ class NoticeListAPIView(ListAPIView):
     serializer_class = NoticeSerializer
 
     def list(self, request, *args, **kwargs):
-        return Response(self.public_administration())
+        return Response(self.civil_environmental_engineering())
 
     # 소프트웨어융합대학(소프트웨어학부, 인공지능학부)
     def software(self):
@@ -306,8 +306,8 @@ class NoticeListAPIView(ListAPIView):
         result = []
         baseUrl = 'https://cee.kookmin.ac.kr/site/board/notice/'
         res = requests.get(baseUrl)
-        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')[:5]
-        notice = soup.find_all('td', class_='subject')
+        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')
+        notice = soup.find_all('td', class_='subject')[:5]
         for notice_id, n in enumerate(notice):
             notice_title = escape_ansi(n.get_text()).replace('\r', '')
             notice_link = baseUrl + n.find('a', href=True)['href']
