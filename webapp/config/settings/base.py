@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "club",
     "ad",
     "relationship",
+    "notice",
 ]
 
 REST_FRAMEWORK = {
@@ -101,7 +102,7 @@ REST_AUTH_SERIALIZERS = {
 }
 
 # 회원가입 인증 이메일 관련 설정
-URL_FRONT = 'http://localhost:3000/'
+URL_FRONT = 'https://daesin.netlify.app/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -3,6 +3,8 @@ python ./manage.py makemigrations --noinput
 
 python manage.py migrate --noinput
 
+python manage.py pull_major
+
 python manage.py collectstatic --noinput
 
 gunicorn config.wsgi:application --env DJANGO_SETTINGS_MODULE=config.settings.prod --bind 0.0.0.0:8000
