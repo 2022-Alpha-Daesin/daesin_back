@@ -111,6 +111,25 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 미디어 광고학부
+    def media_advertising(self):
+        result = []
+        baseUrl = 'https://cms.kookmin.ac.kr/kmumedia/community/major-notice.do'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('div', class_='b-title-box')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a', href=True)['title']).replace(" 자세히 보기", '')
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "미디어광고학부",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
 
 # 이스케이프 문자 제거
 def escape_ansi(line):
