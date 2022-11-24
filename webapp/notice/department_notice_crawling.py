@@ -143,4 +143,23 @@ def law():
     return {"result": result}
 
 
-print(law())
+def economics_commerce():
+    result = []
+    baseUrl = 'https://kyungsang.kookmin.ac.kr/community/board/notice/'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('li', class_='subject')[1:6]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.get_text())
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "경상대학",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(economics_commerce())

@@ -168,7 +168,7 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
-    # 법학부
+    # 법과대학(법학부, 기업융합법학과)
     def law(self):
         result = []
         baseUrl = 'https://law.kookmin.ac.kr/bachelor/notice/'
@@ -181,6 +181,25 @@ class NoticeListAPIView(ListAPIView):
             notice_obj = {
                 'id': notice_id + 1,
                 'major': "법학부",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 경상대학(경제학과, 국제통상학과)
+    def economics_commerce(self):
+        result = []
+        baseUrl = 'https://kyungsang.kookmin.ac.kr/community/board/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('li', class_='subject')[1:6]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "경상대학",
                 'title': notice_title,
                 'url': notice_link,
             }
