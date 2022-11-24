@@ -306,7 +306,7 @@ class NoticeListAPIView(ListAPIView):
         result = []
         baseUrl = 'https://cee.kookmin.ac.kr/site/board/notice/'
         res = requests.get(baseUrl)
-        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')
+        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')[:5]
         notice = soup.find_all('td', class_='subject')
         for notice_id, n in enumerate(notice):
             notice_title = escape_ansi(n.get_text()).replace('\r', '')
@@ -326,7 +326,7 @@ class NoticeListAPIView(ListAPIView):
         baseUrl = 'https://ee.kookmin.ac.kr/community/board/notice/'
         res = requests.get(baseUrl)
         soup = bs(res.content, 'html.parser')
-        notice = soup.find_all('td', class_='subject')
+        notice = soup.find_all('td', class_='subject')[:5]
         for notice_id, n in enumerate(notice):
             notice_title = escape_ansi(n.get_text())
             notice_link = baseUrl + n.find('a', href=True)['href']
@@ -338,6 +338,25 @@ class NoticeListAPIView(ListAPIView):
             }
             result.append(notice_obj)
         return {'result': result}
+
+    # 공업디자인학과
+    def industrial_degisn(self):
+        result = []
+        baseUrl = 'https://id.kookmin.ac.kr/id/intro/notice.do'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('div', class_='b-title-box')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a', href=True)['title'])
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "공업디자인학과",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
 
 
 # 이스케이프 문자 제거
