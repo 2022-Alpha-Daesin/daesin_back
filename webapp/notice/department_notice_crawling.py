@@ -238,4 +238,23 @@ def japan():
     return {"result": result}
 
 
-print(japan())
+def mechanical_engineering():
+    result = []
+    baseUrl = 'https://me.kookmin.ac.kr/mech/bbs/notice.do'
+    res = requests.get(baseUrl)
+    soup = bs(res.content, 'html.parser')
+    notice = soup.find_all('div', class_='b-title-box')[:5]
+    for notice_id, n in enumerate(notice):
+        notice_title = escape_ansi(n.find('a', href=True)['title']).replace(' 자세히 보기', '')
+        notice_link = baseUrl + n.find('a', href=True)['href']
+        notice_obj = {
+            'id': notice_id + 1,
+            'major': "기계공학부",
+            'title': notice_title,
+            'url': notice_link,
+        }
+        result.append(notice_obj)
+    return {"result": result}
+
+
+print(mechanical_engineering())
