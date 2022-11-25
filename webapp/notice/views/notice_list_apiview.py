@@ -22,6 +22,7 @@ class NoticeListAPIView(ListAPIView):
         except:
             return Response(self.no_login_or_no_major())
 
+    # 비로그인 및 전공이 없는경우 국민대 학사 공지 크롤링
     def no_login_or_no_major(self):
         result = []
         baseUrl = 'https://www.kookmin.ac.kr/user/kmuNews/notice/4/index.do'
