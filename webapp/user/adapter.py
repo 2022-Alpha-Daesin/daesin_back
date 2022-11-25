@@ -11,8 +11,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         # 추가 저장 필드: nickname, grade, major
         nickname = data.get('nickname')
         grade = data.get('grade')
-        major_id = data.get('major_id')
-        major = data.get('major')
+        major = data.get('major_id')
         if nickname:
             user.nickname = nickname
         if grade:
