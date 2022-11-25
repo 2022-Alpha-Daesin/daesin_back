@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from notice.models import Notice
 from notice.serializers import NoticeSerializer
+from user.models import UserMajor
 
 
 class NoticeListAPIView(ListAPIView):
@@ -14,7 +15,9 @@ class NoticeListAPIView(ListAPIView):
     serializer_class = NoticeSerializer
 
     def list(self, request, *args, **kwargs):
-        return Response(self.civil_environmental_engineering())
+        user_major = UserMajor.objects.get(user=self.request.user).major.department
+        method_name = eval('self.' + major_dict[user_major] + '()')
+        return Response(method_name)
 
     # 소프트웨어융합대학(소프트웨어학부, 인공지능학부)
     def software(self):
@@ -188,7 +191,7 @@ class NoticeListAPIView(ListAPIView):
         return {"result": result}
 
     # 미디어 광고학부
-    def media_advertising(self):
+    def media(self):
         result = []
         baseUrl = 'https://cms.kookmin.ac.kr/kmumedia/community/major-notice.do'
         res = requests.get(baseUrl)
@@ -491,7 +494,6 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
-
     # 자동차융합대학 (자동차공학과, 자동차IT융합학과, 미래자동차전공[연계전공])
     def car_fusion(self):
         result = []
@@ -589,8 +591,84 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 신소재공학부
+    def materials_science(self):
+        result = []
+        baseUrl = 'https://engineering.kookmin.ac.kr/board/engineering_notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('td', class_='subject')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "창의공과대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {'result': result}
+
 
 # 이스케이프 문자 제거
 def escape_ansi(line):
     ansi_escape = re.compile(r'(\xd7|\n)')
     return ansi_escape.sub('', line).replace('\t', '')
+
+
+# 학부와 함수 연결
+major_dict = {
+    '영어영문학부': 'english',
+    '중국학부': 'china',
+    '한국어문학부': 'korean',
+    '한국역사학과': 'history',
+    '일본학과': 'japan',
+    '정치외교학과': 'politics',
+    '행정학과': 'public_administration',
+    '사회학과': 'sociology',
+    '미디어ㆍ광고학부': 'media',
+    '교육학과': 'education',
+    '러시아ㆍ유라시아학과': 'russian_eurasian',
+    '법학부': 'law',
+    '기업융합법학과': 'law',
+    '경제학과': 'economics_commerce',
+    '국제통상학과': 'economics_commerce',
+    '기계공학부': 'mechanical_engineering',
+    '건설시스템공학부': 'civil_environmental_engineering',
+    '전자공학부': 'electronics',
+    '공업디자인학과': 'industrial_degisn',
+    '금속공예학과': 'metal_craft',
+    '시각디자인학과': 'design',
+    '도자공예학과': 'design',
+    '의상디자인학과': 'design',
+    '공간디자인학과': 'design',
+    '영상디자인학과': 'design',
+    '자동차·운송디자인학과': 'design',
+    'AI디자인학과': 'design',
+    '산림환경시스템학과': 'science_tech',
+    '나노전자물리학과': 'science_tech',
+    '응용화학부': 'science_tech',
+    '임산생명공학과': 'bio_tech',
+    '정보보안암호수학과': 'security_mathematics',
+    '음악학부': 'arts',
+    '마술학부': 'arts',
+    '공연예술학부': 'arts',
+    '스포츠교육학과': 'sports',
+    '스포츠산업레저학과': 'sports',
+    '스포츠건강재활학과': 'sports',
+    '경영학부': 'business',
+    '기업경영학부': 'business',
+    '경영정보학부': 'business',
+    'KMU International Business School': 'business',
+    '재무금융·회계학부': 'business',
+    'AI빅데이터융합경영학과': 'business',
+    '소프트웨어학부': 'software',
+    '인공지능학부': 'software',
+    '건축학부': 'architecture',
+    '자동차공학부': 'car_fusion',
+    '자동차IT융합학과': 'car_fusion',
+    '미래자동차학부': 'car_fusion',
+    '미래모빌리티학과': 'car_fusion',
+    '신소재공학부': 'materials_science',
+}
