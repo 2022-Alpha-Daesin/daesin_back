@@ -472,6 +472,123 @@ class NoticeListAPIView(ListAPIView):
             result.append(notice_obj)
         return {"result": result}
 
+    # 미래모빌리티학과
+    def future_mobility(self):
+        result = []
+        baseUrl = 'https://futuremobility.kookmin.ac.kr/futuremobility/board/academic-news001.do'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('div', class_='b-title-box')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "미래모빌리티학과",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+
+    # 자동차융합대학 (자동차공학과, 자동차IT융합학과, 미래자동차전공[연계전공])
+    def car_fusion(self):
+        result = []
+        baseUrl = 'https://auto.kookmin.ac.kr/impartation/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('td', class_='subject')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "자동차융합대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 건축학부
+    def architecture(self):
+        result = []
+        baseUrl = 'https://archi.kookmin.ac.kr/site/community/notice.htm'
+        res = requests.get(baseUrl)
+        soup = bs(res.content.decode('euc-kr', 'replace'), 'html.parser')
+        notice = soup.find_all('td', colspan="3")[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "건축대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 경영대학 (경영학부, 기업경영학부, 경영정보학부, KIBS, 재무금용 회계학부, AI 빅데이터융합경영학)
+    def business(self):
+        result = []
+        baseUrl = 'https://biz.kookmin.ac.kr/community/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        # 동일한 태그속성으로 테이블의 "제목"칼럼이 잡혀있어서 인덱스 수정.
+        notice = soup.find_all('li', class_='subject')[1:6]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "경영대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 체육대학 (스포츠교육학과, 스포츠산업레저학과, 스포츠건강재활학과)
+    # 제목 출력형식 수정필요(a의 하위태그인 span삭제해야함)
+    def sports(self):
+        result = []
+        baseUrl = 'https://sport.kookmin.ac.kr/sports/notice/notice01.do'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('div', class_='b-title-box')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.find('a').get_text())
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "체육대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
+    # 예술대학 (음악학부, 미술학부, 공연예술학부)
+    def arts(self):
+        result = []
+        baseUrl = 'https://art.kookmin.ac.kr/community/notice/'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('li', class_='subject')[1:6]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text()).strip()  # 공백제거
+            notice_link = baseUrl + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "예술대학",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
+
 
 # 이스케이프 문자 제거
 def escape_ansi(line):
