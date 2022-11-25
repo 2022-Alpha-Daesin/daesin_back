@@ -553,7 +553,6 @@ class NoticeListAPIView(ListAPIView):
         return {"result": result}
 
     # 체육대학 (스포츠교육학과, 스포츠산업레저학과, 스포츠건강재활학과)
-    # 제목 출력형식 수정필요(a의 하위태그인 span삭제해야함)
     def sports(self):
         result = []
         baseUrl = 'https://sport.kookmin.ac.kr/sports/notice/notice01.do'
@@ -561,7 +560,7 @@ class NoticeListAPIView(ListAPIView):
         soup = bs(res.content, 'html.parser')
         notice = soup.find_all('div', class_='b-title-box')[:5]
         for notice_id, n in enumerate(notice):
-            notice_title = escape_ansi(n.find('a').get_text())
+            notice_title = escape_ansi(n.find('a', href=True)['title'])
             notice_link = baseUrl + n.find('a', href=True)['href']
             notice_obj = {
                 'id': notice_id + 1,
