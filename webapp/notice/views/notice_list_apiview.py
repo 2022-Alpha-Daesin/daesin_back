@@ -15,9 +15,30 @@ class NoticeListAPIView(ListAPIView):
     serializer_class = NoticeSerializer
 
     def list(self, request, *args, **kwargs):
-        user_major = UserMajor.objects.get(user=self.request.user).major.department
-        method_name = eval('self.' + major_dict[user_major] + '()')
-        return Response(method_name)
+        try:
+            user_major = UserMajor.objects.get(user=self.request.user).major.department
+            method_name = eval('self.' + major_dict[user_major] + '()')
+            return Response(method_name)
+        except:
+            return Response(self.no_login_or_no_major())
+
+    def no_login_or_no_major(self):
+        result = []
+        baseUrl = 'https://www.kookmin.ac.kr/user/kmuNews/notice/4/index.do'
+        res = requests.get(baseUrl)
+        soup = bs(res.content, 'html.parser')
+        notice = soup.find_all('li', class_='notice')[:5]
+        for notice_id, n in enumerate(notice):
+            notice_title = escape_ansi(n.get_text())
+            notice_link = "https://www.kookmin.ac.kr" + n.find('a', href=True)['href']
+            notice_obj = {
+                'id': notice_id + 1,
+                'major': "국민대학교",
+                'title': notice_title,
+                'url': notice_link,
+            }
+            result.append(notice_obj)
+        return {"result": result}
 
     # 소프트웨어융합대학(소프트웨어학부, 인공지능학부)
     def software(self):
