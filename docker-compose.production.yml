@@ -1,70 +1,37 @@
-version: '3'
+version: "3"
 services:
-
   nginx:
     build:
       context: ./nginx
       dockerfile: ./Dockerfile.production
-    # Dockerfile이 있는 경로를 지정해 docker-compose 실행 시 이미지를 즉석으로 빌드하여 사용
-
-    image: docker-server/nginx
-    # 컨테이너에서 사용하는 이미지 지정
-
+    image: nginx
     restart: always
-    # 컨테이너 다운 시 재시작
-
     ports:
       - "80:80"
-    # 외부로 노출시킬 포트의 맵핑을 명시. 호스트 외부 포트와 컨테이너 내부 포트를 지정
-
-    volumes:
-      - ./webapp:/srv/docker-server
-      - ./log:/var/log/nginx
-      - staticfiles:/srv/docker-server/static
-      - mediafiles:/srv/docker-server/media
-    # 마운트(mount)가 필요한 호스트의 경로와 컨테이너의 경로를 명시
-
     depends_on:
       - django
-    # 서비스 간 의존 관계를 지정하기 위해서 사용. 위의 경우 nginx가 올라오기 전에 django가 먼저 올라와야 함을 명시
+    links:
+      - django
+    entrypoint:
+      - /docker-entrypoint.production.sh
+    volumes:
+      - ./log:/var/log/nginx
+      - ./webapp/staticfiles:/static
+      - ./webapp/mediafiles:/media
 
   django:
     build:
       context: ./webapp
       dockerfile: ./Dockerfile.production
-    image: docker-server/django
+    image: django
     restart: always
     entrypoint:
       - /docker-entrypoint.production.sh
     volumes:
-      - ./webapp:/srv/docker-server
-      - ./log:/var/log/uwsgi
-      - staticfiles:/srv/docker-server/static
-      - mediafiles:/srv/docker-server/media
-    depends_on:
-      - mysql
-
-  mysql:
-    image: mysql:8.0
-    ports:
-      - "3308:3308"
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: Asia/Seoul
-      MYSQL_TCP_PORT: 3308
-    expose:
-      - "3308"
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - mysql_data:/var/lib/mysql
+      - ./webapp:/srv
+      - ./webapp/staticfiles:/srv/static
+      - ./webapp/mediafiles:/srv/media
 
 volumes:
-  mysql_data:
   staticfiles:
   mediafiles:
-  # host에서 저장하지 않고 volumes 컨테이너를 통해 데이터를 관리한다.

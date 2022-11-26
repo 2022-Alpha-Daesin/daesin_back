@@ -1,6 +1,7 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from .models import Major, UserMajor
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 class CustomAccountAdapter(DefaultAccountAdapter):
 
@@ -10,7 +11,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         # 추가 저장 필드: nickname, grade, major
         nickname = data.get('nickname')
         grade = data.get('grade')
-        major = data.get('major')
+        major = data.get('major_id')
         if nickname:
             user.nickname = nickname
         if grade:
@@ -23,4 +24,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
                 major=major
             )
         return user
-
+    
+    def send_mail(self, template_prefix, email, context):
+        context['activate_url'] = settings.URL_FRONT + \
+            'signin/?key=' + context['key']
+        msg = self.render_mail(template_prefix, email, context)
+        msg.send()

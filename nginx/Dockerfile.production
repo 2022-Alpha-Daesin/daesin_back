@@ -2,11 +2,9 @@ FROM nginx:latest
 # nginx 설치
 
 COPY ./production/nginx.conf /etc/nginx/nginx.conf
-# Configure Nginx
 
-COPY ./production/nginx-app.conf /etc/nginx/sites-available/
+COPY wait-for-it.sh /wait-for-it.sh
 
-RUN mkdir -p /etc/nginx/sites-enabled/\
-    && ln -s /etc/nginx/sites-available/nginx-app.conf /etc/nginx/sites-enabled/
-
-CMD ["nginx", "-g", "daemon off;"]
+# Copy Entrypoint Script
+COPY ./production/docker-entrypoint.production.sh /docker-entrypoint.production.sh
+RUN chmod +x /docker-entrypoint.production.sh

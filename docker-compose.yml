@@ -4,27 +4,26 @@ services:
     build:
       context: ./nginx
       dockerfile: ./Dockerfile
-    # Dockerfile이 있는 경로를 지정해 docker-compose 실행 시 이미지를 즉석으로 빌드하여 사용
-
-    image: docker-server/nginx
-    # 컨테이너에서 사용하는 이미지 지정
-
+    image: nginx
     restart: always
-    # 컨테이너 다운 시 재시작
-
     ports:
-      - "8000:80"
-    # 외부로 노출시킬 포트의 맵핑을 명시. 호스트 외부 포트와 컨테이너 내부 포트를 지정
-
+      - "80:80"
     depends_on:
       - django
-    # 서비스 간 의존 관계를 지정하기 위해서 사용. 위의 경우 nginx가 올라오기 전에 django가 먼저 올라와야 함을 명시
+    links:
+      - django
+    entrypoint:
+      - /docker-entrypoint.sh
+    volumes:
+      - ./log:/var/log/nginx
+      - ./webapp/staticfiles:/static
+      - ./webapp/mediafiles:/media
 
   django:
     build:
       context: ./webapp
       dockerfile: ./Dockerfile
-    image: docker-server/django
+    image: django
     restart: always
     command: >
       bash -c "python ./manage.py makemigrations --noinput &&
@@ -32,15 +31,16 @@ services:
                python ./manage.py collectstatic --noinput &&
                python ./manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./webapp:/srv/docker-server
-      - ./log:/var/log/uwsgi
-      - staticfiles:/srv/docker-server/static
-      - mediafiles:/srv/docker-server/media
+      - ./webapp:/srv
+      - ./log:/var/log/
+      - ./webapp/staticfiles:/static
+      - ./webapp/mediafiles:/media
     depends_on:
       - mysql
 
   mysql:
     image: mysql:8.0
+    container_name: mysql
     ports:
       - "3308:3308"
     environment:

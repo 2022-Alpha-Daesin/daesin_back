@@ -10,13 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
 from datetime import timedelta
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -28,7 +28,6 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -46,12 +45,12 @@ INSTALLED_APPS = [
     # migrate에 필요
     'django.contrib.sites',
 
-    #cors
+    # cors
     'corsheaders',
     # django 회원가입/로그인
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', # 이거 없으면 유저 delete할때 에러난다고 해서 포함
+    'allauth.socialaccount',  # 이거 없으면 유저 delete할때 에러난다고 해서 포함
     'dj_rest_auth',
     'dj_rest_auth.registration',
 
@@ -63,6 +62,7 @@ INSTALLED_APPS = [
     "review",
     "club",
     "ad",
+    "relationship",
     "tag",
 ]
 
@@ -85,7 +85,6 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 SITE_ID = 1
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 # 유저, 회원가입, 로그인 커스텀
@@ -99,9 +98,11 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailSerializer',
 }
 
 # 회원가입 인증 이메일 관련 설정
+URL_FRONT = 'http://localhost:3000/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -122,7 +123,6 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # 이메일 제목
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[daesin]"
 
-# 로그인시 아이디쓰면 안된데 얘들아- 강승원
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
@@ -185,14 +185,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': os.environ.get("DATABASES_NAME"),
-        'USER': os.environ.get("DATABASES_USER"),
-        'PASSWORD': os.environ.get("DATABASES_PASSWORD"),
+        'USER': os.environ.get("DATABASES_LOCALUSER"),
+        'PASSWORD': os.environ.get("DATABASES_LOCALPASSWORD"),
         'HOST': 'mysql',
         'PORT': '3308',
     }
 }
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -212,7 +212,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -224,12 +223,12 @@ USE_I18N = True
 
 USE_TZ = False
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "staticfiles/"
+STATIC_URL = "static/"
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
@@ -243,7 +242,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 LOGGING = {
     'version': 1,
@@ -262,7 +260,6 @@ LOGGING = {
         },
     },
 }
-
 
 JAZZMIN_SETTINGS = {
     'site_title': 'Daesin',
