@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-
-from post.models import Post
+from post.models import Post, Image
+from .image_serializer import ImageSerializer
 from user.serializers import UserAbstractSerializer
 
 
@@ -10,6 +10,7 @@ class PostSerializer(ModelSerializer):
     like_count = serializers.SerializerMethodField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
     is_scraped = serializers.SerializerMethodField(read_only=True)
+    images = ImageSerializer(source='image_sets', many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -17,6 +18,7 @@ class PostSerializer(ModelSerializer):
             'id',
             'title',
             'content',
+            'images',
             'author',
             'type',
             'created_at',
@@ -38,6 +40,21 @@ class PostSerializer(ModelSerializer):
                 }
             }
         }
+
+    def create(self, validated_data):
+        images_data = self.context['request'].FILES
+        post = Post.objects.create(**validated_data)
+        for data in images_data.get_list('image_data'):
+            Image.objects.create(post=post, image=data)
+        return post
+
+    def update(self, instance, validated_data):
+        images_data = self.context['request'].FILES
+        Image.objects.filter(post=instance).delete()
+        for data in images_data.get_list('image_data'):
+            Image.objects.create(post=instance, image=data)
+        instance = super().update(instance, validated_data)
+        return instance
 
     def get_like_count(self, post):
         return post.like.count()
