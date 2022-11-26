@@ -1,6 +1,6 @@
 from django.db import models
 from club.models import Club
-from tag.models import Tag
+from .tag import Tag
 
 
 class ClubTag(models.Model):

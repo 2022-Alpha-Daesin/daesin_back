@@ -41,21 +41,6 @@ class PostSerializer(ModelSerializer):
             }
         }
 
-    def create(self, validated_data):
-        images_data = self.context['request'].FILES
-        post = Post.objects.create(**validated_data)
-        for data in images_data.get_list('image_data'):
-            Image.objects.create(post=post, image=data)
-        return post
-
-    def update(self, instance, validated_data):
-        images_data = self.context['request'].FILES
-        Image.objects.filter(post=instance).delete()
-        for data in images_data.get_list('image_data'):
-            Image.objects.create(post=instance, image=data)
-        instance = super().update(instance, validated_data)
-        return instance
-
     def get_like_count(self, post):
         return post.like.count()
 
