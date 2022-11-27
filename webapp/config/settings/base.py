@@ -74,6 +74,9 @@ REST_FRAMEWORK = {
         'config.authentications.CsrfExemptSessionAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
     ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    # ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DATETIME_FORMAT': "%Y-%m-%d / %H:%M:%S",
 }
