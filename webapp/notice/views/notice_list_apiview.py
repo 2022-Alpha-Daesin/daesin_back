@@ -2,6 +2,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup as bs
+from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
@@ -16,11 +17,15 @@ class NoticeListAPIView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         try:
-            user_major = UserMajor.objects.get(user=self.request.user).major.department
-            method_name = eval('self.' + major_dict[user_major] + '()')
-            return Response(method_name)
-        except:
-            print("ASFDadsffasdfadsfasdfsad")
+            user_major = UserMajor.objects.filter(user=self.request.user)
+            data = []
+            for department in user_major:
+                major = department.major.department
+                method_name = eval('self.' + major_dict[major] + '()')
+                method_result = method_name
+                data.append(method_result)
+            return Response({"data": data}, status=status.HTTP_200_OK)
+        except TypeError:
             return Response(self.no_login_or_no_major())
 
     # 비로그인 및 전공이 없는경우 국민대 학사 공지 크롤링
