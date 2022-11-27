@@ -1,15 +1,16 @@
-from rest_framework.viewsets import ModelViewSet
-from post.serializers.post_serializer import PostSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.viewsets import ModelViewSet
+
 from post.models import Post
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from post.permissions import IsPostAuthorOrReadOnly
+from post.serializers.post_serializer import PostSerializer
 
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [
-        IsAuthenticatedOrReadOnly,
+        IsPostAuthorOrReadOnly,
     ]
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ['type']

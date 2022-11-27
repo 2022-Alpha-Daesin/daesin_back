@@ -3,14 +3,14 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from ad.models import Advertisement
+from ad.permissions import IsAdAuthorOrReadOnly
 from ad.serializers.ad_serializer import ADSerializer
 
 
 class ADViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = ADSerializer
-
-    # permission_classes = [AllowAny]
+    permission_classes = [IsAdAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user, type="A")

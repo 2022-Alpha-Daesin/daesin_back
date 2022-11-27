@@ -20,6 +20,7 @@ class NoticeListAPIView(ListAPIView):
             method_name = eval('self.' + major_dict[user_major] + '()')
             return Response(method_name)
         except:
+            print("ASFDadsffasdfadsfasdfsad")
             return Response(self.no_login_or_no_major())
 
     # 비로그인 및 전공이 없는경우 국민대 학사 공지 크롤링
