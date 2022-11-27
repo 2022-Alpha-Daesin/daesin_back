@@ -1,17 +1,20 @@
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
-from review.serializers.review_serializer import ReviewSerializer
+from rest_framework.viewsets import ModelViewSet
+
 from review.models import Review
+from review.permissions import IsReviewAuthorOrReadOnly
+from review.serializers.review_serializer import ReviewSerializer
 
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsReviewAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user, type="R")
-    
+
     def perform_update(self, serializer):
         return serializer.save(author=self.request.user)
 

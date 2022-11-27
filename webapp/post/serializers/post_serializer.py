@@ -43,12 +43,18 @@ class PostSerializer(ModelSerializer):
         return post.like.count()
 
     def get_is_liked(self, post):
-        user = self.get_request_user()
-        return post.like.filter(user=user).exists()
+        try:
+            user = self.get_request_user()
+            return post.like.filter(user=user).exists()
+        except:
+            return False
 
     def get_is_scraped(self, post):
-        user = self.get_request_user()
-        return post.scrap.filter(user=user).exists()
+        try:
+            user = self.get_request_user()
+            return post.scrap.filter(user=user).exists()
+        except:
+            return False
 
     def get_request_user(self):
         user = None
