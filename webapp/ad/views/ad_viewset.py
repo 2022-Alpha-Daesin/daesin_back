@@ -1,13 +1,16 @@
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from ad.serializers.ad_serializer import ADSerializer
+from rest_framework.viewsets import ModelViewSet
+
 from ad.models import Advertisement
+from ad.serializers.ad_serializer import ADSerializer
 
 
 class ADViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = ADSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user, type="A")
