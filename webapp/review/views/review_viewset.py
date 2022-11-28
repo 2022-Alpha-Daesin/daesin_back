@@ -4,12 +4,15 @@ from review.serializers import ReviewSerializer,ReviewListSerializer
 from rest_framework.viewsets import ModelViewSet
 from review.models import Review
 from review.permissions import IsReviewAuthorOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     permission_classes = [IsReviewAuthorOrReadOnly]
-    
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['post__post_tags__tag__content']
+
     def get_serializer_class(self):
         if self.action == 'list':
             return ReviewListSerializer

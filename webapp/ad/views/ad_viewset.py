@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
 from ad.models import Advertisement
 from ad.permissions import IsAdAuthorOrReadOnly
@@ -10,7 +11,10 @@ from ad.serializers import ADSerializer,AdvertisementListSerializer
 class ADViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     permission_classes = [IsAdAuthorOrReadOnly]
-
+    filter_backends = [DjangoFilterBackend, ]
+    filterset_fields = ['post__post_tags__tag__content']
+    ordering = ['-post.updated_at']    
+    
     def get_serializer_class(self):
         if self.action == 'list':
             return AdvertisementListSerializer

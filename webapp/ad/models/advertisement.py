@@ -8,6 +8,7 @@ class Advertisement(models.Model):
         db_table = 'advertisements'
         verbose_name = 'Advertisement'
         verbose_name_plural = 'Advertisements'
+        ordering = ['-post__updated_at']
 
     post = models.OneToOneField(
         Post,

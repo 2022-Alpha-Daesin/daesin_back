@@ -7,6 +7,7 @@ class Review(models.Model):
         db_table = 'reviews'
         verbose_name = 'Review'
         verbose_name_plural = 'Reviews'
+        ordering = ['-post__updated_at']
 
     post = models.OneToOneField(
         Post,

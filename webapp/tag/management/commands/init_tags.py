@@ -7,6 +7,9 @@ logger = logging.getLogger('django')
 review_categories = [
     '전과/복전/부전','전과','복전','부전','졸업정보','교환학생','장학정보','지원금'
 ]
+ad_categories =[
+    '알파프로젝트','알바','기타'
+]
 
 class Command(BaseCommand):
     help = 'This is pull_major command'
@@ -32,4 +35,7 @@ class Command(BaseCommand):
         for category in review_categories:
             if not Tag.objects.filter(content =category).exists():
                 Tag.objects.create(content =category,parent=review)
+        for category in ad_categories:
+            if not Tag.objects.filter(content =category).exists():
+                Tag.objects.create(content =category,parent=ad)
         logger.info("tag initialize complete")
