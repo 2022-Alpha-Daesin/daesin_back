@@ -9,7 +9,8 @@ class Tag(models.Model):
 
     content = models.CharField(
         max_length=100,
-        verbose_name='태그'
+        verbose_name='태그',
+        unique=True
     )
     parent = models.ForeignKey(
         'self',

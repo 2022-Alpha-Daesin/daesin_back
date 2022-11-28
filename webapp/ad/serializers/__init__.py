@@ -1,1 +1,2 @@
 from .ad_serializer import ADSerializer
+from .list_serializer import AdvertisementListSerializer

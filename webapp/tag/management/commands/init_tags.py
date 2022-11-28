@@ -15,9 +15,21 @@ class Command(BaseCommand):
         parser.add_argument("--times", help="Command Create")
 
     def handle(self, *args, **options):
-        review = Tag.objects.create(content ='후기')
-        club = Tag.objects.create(content ='동아리')
-        ad = Tag.objects.create(content ='홍보')
+        if Tag.objects.filter(content='후기').exists():
+            review = Tag.objects.get(content='후기')
+        else:
+            review = Tag.objects.create(content ='후기')
+
+        if Tag.objects.filter(content='동아리').exists():
+            club = Tag.objects.get(content ='동아리')
+        else:
+            club = Tag.objects.create(content ='동아리')
+        
+        if Tag.objects.filter(content='홍보').exists():
+            ad = Tag.objects.get(content ='홍보')
+        else:
+            ad = Tag.objects.create(content ='홍보')
         for category in review_categories:
-            Tag.objects.create(content =category,parent=review)
+            if not Tag.objects.filter(content =category).exists():
+                Tag.objects.create(content =category,parent=review)
         logger.info("tag initialize complete")

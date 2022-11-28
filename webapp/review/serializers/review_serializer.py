@@ -16,7 +16,6 @@ class ReviewSerializer(ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print('validate_data',validated_data)
         images = validated_data.pop('images')
         tags = Tag.objects.filter(id__in=validated_data.pop('tags'))
         post_data = validated_data.pop('post')

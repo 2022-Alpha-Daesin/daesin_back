@@ -1,24 +1,19 @@
-from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
 from review.serializers import ReviewSerializer,ReviewListSerializer
+from rest_framework.viewsets import ModelViewSet
 from review.models import Review
+from review.permissions import IsReviewAuthorOrReadOnly
 
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
+    permission_classes = [IsReviewAuthorOrReadOnly]
     
     def get_serializer_class(self):
         if self.action == 'list':
             return ReviewListSerializer
         return ReviewSerializer
-    
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
     def perform_create(self, serializer):
         return serializer.save(author=self.request.user,images=self.request.FILES.getlist('images'),tags=self.request.data.getlist('tags'), type="R")

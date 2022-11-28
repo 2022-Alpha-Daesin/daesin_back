@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "ad",
     "relationship",
     "tag",
+    "notice",
 ]
 
 REST_FRAMEWORK = {
