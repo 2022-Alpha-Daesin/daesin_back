@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "club",
     "ad",
     "relationship",
+    "tag",
     "notice",
 ]
 

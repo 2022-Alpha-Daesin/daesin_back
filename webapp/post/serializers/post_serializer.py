@@ -1,15 +1,17 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-
-from post.models import Post
+from post.models import Post, Image
+from .image_serializer import ImageSerializer
 from user.serializers import UserAbstractSerializer
-
+from tag.serializers import PostTagSerializer
 
 class PostSerializer(ModelSerializer):
     author = UserAbstractSerializer(read_only=True)
     like_count = serializers.SerializerMethodField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
     is_scraped = serializers.SerializerMethodField(read_only=True)
+    image_list = ImageSerializer(source='images', many=True, read_only=True)
+    tags = PostTagSerializer(source = 'post_tags',many=True,read_only=True)
 
     class Meta:
         model = Post
@@ -17,6 +19,8 @@ class PostSerializer(ModelSerializer):
             'id',
             'title',
             'content',
+            'image_list',
+            'tags',
             'author',
             'type',
             'created_at',
