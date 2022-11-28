@@ -39,4 +39,7 @@ urlpatterns = [
     path('comment/', include('relationship.urls.comment'), name="comments"),
     path('like/', include('relationship.urls.like'), name="likes"),
     path('scrap/', include('relationship.urls.scrap'), name="scraps"),
+    path('tag/',include('tag.urls'))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
