@@ -2,9 +2,9 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from post.models import Post
-from post.serializers import ImageSerializer
 from tag.serializers import PostTagSerializer
 from user.serializers import UserAbstractSerializer
+from .image_serializer import ImageSerializer
 
 
 class PostSerializer(ModelSerializer):
