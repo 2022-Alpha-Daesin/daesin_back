@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -11,7 +12,10 @@ from ad.serializers import ADSerializer, AdvertisementListSerializer
 
 class ADViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
-    permission_classes = [IsAdAuthorOrReadOnly]
+    permission_classes = [
+        IsAdAuthorOrReadOnly,
+        IsAuthenticatedOrReadOnly,
+    ]
     pagination_class = AdPageNumberPagination
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['post__post_tags__tag__content']

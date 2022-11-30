@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -11,7 +12,10 @@ from review.serializers import ReviewSerializer, ReviewListSerializer
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
-    permission_classes = [IsReviewAuthorOrReadOnly]
+    permission_classes = [
+        IsReviewAuthorOrReadOnly,
+        IsAuthenticatedOrReadOnly,
+    ]
     pagination_class = ReviewPageNumberPagination
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['post__post_tags__tag__content']
