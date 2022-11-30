@@ -1,9 +1,9 @@
 from rest_framework.serializers import ModelSerializer
+
 from club.models import Club
 
 
 class ClubSerializer(ModelSerializer):
-
     class Meta:
         model = Club
         fields = [

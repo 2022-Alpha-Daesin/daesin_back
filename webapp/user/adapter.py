@@ -1,7 +1,9 @@
 from allauth.account.adapter import DefaultAccountAdapter
-from .models import Major, UserMajor
-from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+
+from .models import Major, UserMajor
+
 
 class CustomAccountAdapter(DefaultAccountAdapter):
 
@@ -24,9 +26,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
                 major=major
             )
         return user
-    
+
     def send_mail(self, template_prefix, email, context):
         context['activate_url'] = settings.URL_FRONT + \
-            'signin/?key=' + context['key']
+                                  'signin/?key=' + context['key']
         msg = self.render_mail(template_prefix, email, context)
         msg.send()

@@ -1,4 +1,5 @@
 from django.db import models
+
 from post.models import Post
 
 
@@ -17,7 +18,7 @@ class Image(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name= 'images',
+        related_name='images',
         null=True,
-        blank= True,
+        blank=True,
     )

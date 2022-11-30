@@ -1,8 +1,9 @@
 from rest_framework.serializers import ModelSerializer
-from post.models import Post,Image
-from tag.models import PostTag,Tag
+
 from ad.models import Advertisement
+from post.models import Post, Image
 from post.serializers.post_serializer import PostSerializer
+from tag.models import PostTag, Tag
 
 
 class ADSerializer(ModelSerializer):
@@ -22,9 +23,9 @@ class ADSerializer(ModelSerializer):
                                                                 end_date=validated_data.pop('end_date'),
                                                                 club=validated_data.get('club', None))
         for image in images:
-            Image.objects.create(post=post,image=image)
+            Image.objects.create(post=post, image=image)
         for tag in tags:
-            PostTag.objects.create(post=post,tag=tag)
+            PostTag.objects.create(post=post, tag=tag)
         return advertisement
 
     def update(self, instance, validated_data):

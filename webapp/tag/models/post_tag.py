@@ -1,6 +1,7 @@
 from django.db import models
+
 from post.models import Post
-from .tag import Tag
+from tag.models import Tag
 
 
 class PostTag(models.Model):

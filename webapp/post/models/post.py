@@ -49,6 +49,3 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.title}"
-
-    # def is_liked(self, user):
-    #     return self.like.filter(user=user).exists()

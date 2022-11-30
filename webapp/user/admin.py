@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Major, UserMajor
 from django.contrib.auth import get_user_model
+
+from .models import Major, UserMajor
 
 User = get_user_model()
 
