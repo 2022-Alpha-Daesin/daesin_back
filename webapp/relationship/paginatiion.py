@@ -6,5 +6,4 @@ class ScrapPageNumberPagination(PageNumberPagination):
 
 
 class CommentPageNumberPagination(PageNumberPagination):
-    page_size = 2
-
+    page_size = 4
