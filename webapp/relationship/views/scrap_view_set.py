@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from relationship.models import Scrap
+from relationship.paginatiion import ScrapPageNumberPagination
 from relationship.serializers import ScrapSerializer
 
 
@@ -11,6 +12,7 @@ class ScrapViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.De
                    viewsets.GenericViewSet):
     queryset = Scrap.objects.all()
     serializer_class = ScrapSerializer
+    pagination_class = ScrapPageNumberPagination
     permission_classes = [
         IsAuthenticated,
     ]
