@@ -1,5 +1,6 @@
 from django.db.models import Q
 from rest_framework import viewsets, mixins, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from relationship.models import Scrap
@@ -7,9 +8,12 @@ from relationship.serializers import ScrapSerializer
 
 
 class ScrapViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin,
-                  viewsets.GenericViewSet):
+                   viewsets.GenericViewSet):
     queryset = Scrap.objects.all()
     serializer_class = ScrapSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
