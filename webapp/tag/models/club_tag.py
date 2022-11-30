@@ -1,4 +1,5 @@
 from django.db import models
+
 from club.models import Club
 from .tag import Tag
 
@@ -19,4 +20,3 @@ class ClubTag(models.Model):
         on_delete=models.CASCADE,
         related_name='club_tags'
     )
-

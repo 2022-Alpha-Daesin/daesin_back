@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -13,6 +14,7 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [
         IsPostAuthorOrReadOnly,
+        IsAuthenticatedOrReadOnly,
     ]
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ['type']

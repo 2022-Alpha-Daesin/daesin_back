@@ -1,4 +1,5 @@
 from rest_framework.routers import DefaultRouter
+
 from user.views import MajorViewSet, UserMajorViewSet
 
 router = DefaultRouter()

@@ -1,8 +1,10 @@
 from dj_rest_auth.serializers import UserDetailsSerializer
-from rest_framework import serializers
-from . import UserMajorSerializer
-from user.models import UserMajor
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+from user.models import UserMajor
+from . import UserMajorSerializer
+
 UserModel = get_user_model()
 
 

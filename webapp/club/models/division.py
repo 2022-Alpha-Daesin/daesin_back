@@ -1,4 +1,5 @@
 from django.db import models
+
 from user.models.major import Major
 
 
