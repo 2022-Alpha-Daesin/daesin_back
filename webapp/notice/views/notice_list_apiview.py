@@ -1,3 +1,4 @@
+import itertools
 import re
 
 import requests
@@ -18,13 +19,18 @@ class NoticeListAPIView(ListAPIView):
     def list(self, request, *args, **kwargs):
         try:
             user_major = UserMajor.objects.filter(user=self.request.user)
-            data = []
+            ret = {}
             for department in user_major:
+                data = []
+                major_num = department.number
+                print(major_num)
                 major = department.major.department
                 method_name = eval('self.' + major_dict[major] + '()')
                 method_result = method_name
                 data.append(method_result)
-            return Response({"data": data}, status=status.HTTP_200_OK)
+                data = list(itertools.chain(*data))
+                ret[str(major_num)] = data
+            return Response(ret, status=status.HTTP_200_OK)
         except TypeError:
             return Response(self.no_login_or_no_major())
 
@@ -64,7 +70,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 영어영문학부
     def english(self):
@@ -83,7 +89,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 중국학부
     def china(self):
@@ -102,7 +108,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 한국어문학부
     def korean(self):
@@ -121,7 +127,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 한국역사학과
     def history(self):
@@ -140,7 +146,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 일본학과
     def japan(self):
@@ -159,7 +165,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 정치외교학과
     def politics(self):
@@ -178,7 +184,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 행정학과
     def public_administration(self):
@@ -197,7 +203,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 사회학과
     def sociology(self):
@@ -216,7 +222,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 미디어 광고학부
     def media(self):
@@ -235,7 +241,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 교육학과
     def education(self):
@@ -254,7 +260,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 러시아 유라시아 학과
     def russian_eurasian(self):
@@ -273,7 +279,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 법과대학(법학부, 기업융합법학과)
     def law(self):
@@ -292,7 +298,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 경상대학(경제학과, 국제통상학과)
     def economics_commerce(self):
@@ -311,7 +317,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 기계공학부
     def mechanical_engineering(self):
@@ -330,7 +336,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 건설시스템공학부
     def civil_environmental_engineering(self):
@@ -387,7 +393,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 금속공예학과
     def metal_craft(self):
@@ -406,7 +412,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 조형대학(시각디자인학과, 도자공예학과, 의상디자인학과, 공간디자인학과, 영상디자인학과, 자동차운송디자인학과, AI디자인학과)
     def design(self):
@@ -425,7 +431,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 임산생명공학과
     def bio_tech(self):
@@ -444,7 +450,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 과학기술대학(산림환경시스템학과, 나노전자물리학과, 응용화학과)
     def science_tech(self):
@@ -463,7 +469,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 정보보안암호수학과
     def security_mathematics(self):
@@ -482,7 +488,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 바이오발효융합학과
     def bio_fusion(self):
@@ -501,7 +507,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 미래모빌리티학과
     def future_mobility(self):
@@ -520,7 +526,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 자동차융합대학 (자동차공학과, 자동차IT융합학과, 미래자동차전공[연계전공])
     def car_fusion(self):
@@ -539,7 +545,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 건축학부
     def architecture(self):
@@ -558,7 +564,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 경영대학 (경영학부, 기업경영학부, 경영정보학부, KIBS, 재무금용 회계학부, AI 빅데이터융합경영학)
     def business(self):
@@ -578,7 +584,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 체육대학 (스포츠교육학과, 스포츠산업레저학과, 스포츠건강재활학과)
     def sports(self):
@@ -597,7 +603,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 예술대학 (음악학부, 미술학부, 공연예술학부)
     def arts(self):
@@ -616,7 +622,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return result
 
     # 신소재공학부
     def materials_science(self):
