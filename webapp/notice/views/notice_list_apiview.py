@@ -23,7 +23,6 @@ class NoticeListAPIView(ListAPIView):
             for department in user_major:
                 data = []
                 major_num = department.number
-                print(major_num)
                 major = department.major.department
                 method_name = eval('self.' + major_dict[major] + '()')
                 method_result = method_name
