@@ -25,8 +25,7 @@ class NoticeListAPIView(ListAPIView):
                 major_num = department.number
                 major = department.major.department
                 method_name = eval('self.' + major_dict[major] + '()')
-                method_result = method_name
-                data.append(method_result)
+                data.append(method_name)
                 data = list(itertools.chain(*data))
                 ret[str(major_num)] = data
             return Response(ret, status=status.HTTP_200_OK)
