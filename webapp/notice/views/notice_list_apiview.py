@@ -50,7 +50,7 @@ class NoticeListAPIView(ListAPIView):
                 'url': notice_link,
             }
             result.append(notice_obj)
-        return {"result": result}
+        return {"1": result}
 
     # 소프트웨어융합대학(소프트웨어학부, 인공지능학부)
     def software(self):
