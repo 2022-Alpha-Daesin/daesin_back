@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
@@ -43,10 +44,16 @@ class ADViewSet(ModelViewSet):
         self.perform_destroy(instance.post)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # 당일 마감 홍보글
+    # 당일 마감 홍보글 (마감 시간이 지난 홍보글은 제외)
     @action(detail=False, methods=['GET'])
     def deadline_0(self, request):
-        response = self.get_deadline_ad(request, 0)
+        paginator = PageNumberPagination()
+        paginator.page_size = 4
+        day = datetime.today() - timedelta(days=0)
+        ads = Advertisement.objects.filter(Q(end_date__date=day) & Q(end_date__gt=datetime.now()))
+        result = paginator.paginate_queryset(ads, request)
+        serializer = self.get_serializer(result, many=True)
+        response = paginator.get_paginated_response(serializer.data)
         return response
 
     # 마감 1일 전 홍보글
