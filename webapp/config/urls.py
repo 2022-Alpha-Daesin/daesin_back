@@ -41,6 +41,7 @@ urlpatterns = [
     path('like/', include('relationship.urls.like'), name="likes"),
     path('scrap/', include('relationship.urls.scrap'), name="scraps"),
     path('tag/',include('tag.urls')),
+    path('cafeteria/',include('cafeteria.urls')),
     path('notice/', include('notice.urls'), name="notices"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
