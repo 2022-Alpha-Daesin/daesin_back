@@ -53,9 +53,10 @@ class Command(BaseCommand):
                     col = bodys[b_index].find_all('td')[0]
                     if not item.find('input') == []:
                         input_tag = item.find('input')
-                        fourvalue = input_tag['value'].replace('{','').replace('}','').split(',')[1].replace(' fourValue=','')
-                        if not fourvalue == '':
-                            column = col.get_text().replace('\n', '')
-                            menu = item.get_text().replace('\n', ' ').replace('\t',' ')
-                            classify_date(title_text,date_text,column,menu)
+                        if input_tag != None:
+                            fourvalue = input_tag['value'].replace('{','').replace('}','').split(',')[1].replace(' fourValue=','')
+                            if not fourvalue == '':
+                                column = col.get_text().replace('\n', '')
+                                menu = item.get_text().replace('\n', ' ').replace('\t',' ')
+                                classify_date(title_text,date_text,column,menu)
         logger.info('Complete Cafeteria Crawling ')
