@@ -1,9 +1,10 @@
 from django.db.models import Q
 from rest_framework import viewsets, mixins, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from relationship.models import Like
+from relationship.permissions import IsAuthorOrReadOnly
 from relationship.serializers import LikeSerializer
 
 
@@ -12,7 +13,8 @@ class LikeViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.Des
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [
-        IsAuthenticated
+        IsAuthorOrReadOnly,
+        IsAuthenticatedOrReadOnly,
     ]
 
     def perform_create(self, serializer):

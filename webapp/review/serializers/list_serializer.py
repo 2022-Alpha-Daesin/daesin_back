@@ -9,8 +9,8 @@ class ReviewListSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='post.author.nickname', read_only=True)
     title = serializers.CharField(source='post.title', read_only=True)
     content = serializers.CharField(source='post.content', read_only=True)
-    updated_at = serializers.CharField(source='post.updated_at', read_only=True)
-    created_at = serializers.CharField(source='post.created_at', read_only=True)
+    updated_at = serializers.DateTimeField(source='post.updated_at', read_only=True)
+    created_at = serializers.DateTimeField(source='post.created_at', read_only=True)
     comments_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:

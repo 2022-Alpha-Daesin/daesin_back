@@ -9,7 +9,7 @@ class Advertisement(models.Model):
         db_table = 'advertisements'
         verbose_name = 'Advertisement'
         verbose_name_plural = 'Advertisements'
-        ordering = ['-post__updated_at']
+        ordering = ['end_date']  # 바꾸면 안 됩니다! 마감 홍보글 호출에 변동이 생길 수 있습니다.
 
     post = models.OneToOneField(
         Post,
