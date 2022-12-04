@@ -1,10 +1,11 @@
 from django.db.models import Q
 from rest_framework import viewsets, mixins, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from relationship.models import Scrap
 from relationship.paginatiion import ScrapPageNumberPagination
+from relationship.permissions import IsAuthorOrReadOnly
 from relationship.serializers import ScrapSerializer
 
 
@@ -14,7 +15,8 @@ class ScrapViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.De
     serializer_class = ScrapSerializer
     pagination_class = ScrapPageNumberPagination
     permission_classes = [
-        IsAuthenticated,
+        IsAuthorOrReadOnly,
+        IsAuthenticatedOrReadOnly,
     ]
 
     def perform_create(self, serializer):
