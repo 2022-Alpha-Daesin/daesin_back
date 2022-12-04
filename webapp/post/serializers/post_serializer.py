@@ -14,13 +14,15 @@ class PostSerializer(ModelSerializer):
     is_scraped = serializers.SerializerMethodField(read_only=True)
     image_list = ImageSerializer(source='images', many=True, read_only=True)
     tags = PostTagSerializer(source='post_tags', many=True, read_only=True)
-    comments = CommentSerializer(source = 'comment_set',many=True)
+    comments = CommentSerializer(source = 'comment_set',many=True,read_only=True)
+    comments_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
         fields = [
             'id',
             'title',
+            'comments_count',
             'content',
             'image_list',
             'comments',
@@ -70,3 +72,6 @@ class PostSerializer(ModelSerializer):
         if request and hasattr(request, "user"):
             user = request.user
         return user
+
+    def get_comments_count(self,post):
+        return post.comment_set.count()

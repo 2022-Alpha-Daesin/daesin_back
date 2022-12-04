@@ -10,9 +10,6 @@ class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     pagination_class = CommentPageNumberPagination
-    permission_classes = [
-        IsAuthenticated
-    ]
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
