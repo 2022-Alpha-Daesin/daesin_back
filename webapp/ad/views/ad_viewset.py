@@ -74,10 +74,16 @@ class ADViewSet(ModelViewSet):
         response = self.get_deadline_ad(request, 3)
         return response
 
+    # 마감 4일전 홍보글
+    @action(detail=False, methods=['GET'])
+    def deadline_4(self, request):
+        response = self.get_deadline_ad(request, 4)
+        return response
+
     def get_deadline_ad(self, request, deadline_date):
         paginator = PageNumberPagination()
         paginator.page_size = 4
-        day = datetime.today() - timedelta(days=deadline_date)
+        day = datetime.today() + timedelta(days=deadline_date)
         ads = Advertisement.objects.filter(end_date__date=day)
         result = paginator.paginate_queryset(ads, request)
         serializer = self.get_serializer(result, many=True)
