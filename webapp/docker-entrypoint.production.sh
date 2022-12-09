@@ -4,6 +4,7 @@ python ./manage.py makemigrations --noinput --settings=config.settings.prod
 python manage.py migrate --noinput --settings=config.settings.prod
 
 python manage.py pull_major --settings=config.settings.prod
+python manage.py pull_menus --settings=config.settings.prod
 python manage.py init_tags --settings=config.settings.prod
 
 python manage.py collectstatic --noinput --settings=config.settings.prod

@@ -1,5 +1,4 @@
-from rest_framework.serializers import ModelSerializer
-from rest_framework.serializers import SerializerMethodField
+from rest_framework.serializers import ModelSerializer,CharField,SerializerMethodField
 
 from relationship.models import Comment
 from user.serializers import UserAbstractSerializer
@@ -7,13 +6,13 @@ from user.serializers import UserAbstractSerializer
 
 class CommentSerializer(ModelSerializer):
     reply = SerializerMethodField()
-    user = UserAbstractSerializer(read_only=True)
+    username = CharField(source='user.nickname',read_only=True)
 
     class Meta:
         model = Comment
         fields = [
             'id',
-            'user',
+            'username',
             'post',
             'content',
             'parent',
@@ -21,9 +20,7 @@ class CommentSerializer(ModelSerializer):
             'created_at',
             'updated_at',
         ]
-        read_only_fields = [
-            'user',
-        ]
+ 
 
     def get_reply(self, instance):
         serializer = self.__class__(instance.reply, many=True)

@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "review",
     "club",
     "ad",
+    "cafeteria",
     "relationship",
     "tag",
     "notice",
