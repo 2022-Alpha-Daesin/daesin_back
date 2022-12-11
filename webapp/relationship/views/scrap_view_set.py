@@ -23,10 +23,13 @@ class ScrapViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.De
         return serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        if Scrap.objects.filter(Q(user=self.request.user) & Q(post=self.request.POST['post'])).exists():
+        if Scrap.objects.filter(Q(user=self.request.user) & Q(post=self.request.data['post'])).exists():
+            queryset = Scrap.objects.filter(Q(user=self.request.user) & Q(post=self.request.data['post']))
+            for q in queryset:
+                q.delete()
             return Response(
                 {
-                    'error': '사용자가 이미 스크랩을 하였습니다.'
+                    'msg': '스크랩 취소되었습니다'
                 }
             )
         else:

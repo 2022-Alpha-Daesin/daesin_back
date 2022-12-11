@@ -21,7 +21,7 @@ class ADViewSet(ModelViewSet):
         IsAdAuthorOrReadOnly,
         IsAuthenticatedOrReadOnly,
     ]
-    pagination_class = AdPageNumberPagination
+    # pagination_class = AdPageNumberPagination
     filter_backends = [DjangoFilterBackend, ]
     filterset_fields = ['post__post_tags__tag__content']
     ordering = ['-post.updated_at']
@@ -47,13 +47,14 @@ class ADViewSet(ModelViewSet):
     # 당일 마감 홍보글 (마감 시간이 지난 홍보글은 제외)
     @action(detail=False, methods=['GET'])
     def deadline_0(self, request):
-        paginator = PageNumberPagination()
-        paginator.page_size = 4
+        # paginator = PageNumberPagination()
+        # paginator.page_size = 4
         day = datetime.today() - timedelta(days=0)
         ads = Advertisement.objects.filter(Q(end_date__date=day) & Q(end_date__gt=datetime.now()))
-        result = paginator.paginate_queryset(ads, request)
-        serializer = self.get_serializer(result, many=True)
-        response = paginator.get_paginated_response(serializer.data)
+        # result = paginator.paginate_queryset(ads, request)
+        serializer = self.get_serializer(ads, many=True)
+        # response = paginator.get_paginated_response(serializer.data)
+        response = Response(serializer.data)
         return response
 
     # 마감 1일 전 홍보글
@@ -75,11 +76,12 @@ class ADViewSet(ModelViewSet):
         return response
 
     def get_deadline_ad(self, request, deadline_date):
-        paginator = PageNumberPagination()
-        paginator.page_size = 4
-        day = datetime.today() - timedelta(days=deadline_date)
+        # paginator = PageNumberPagination()
+        # paginator.page_size = 4
+        day = datetime.today() + timedelta(days=deadline_date)
         ads = Advertisement.objects.filter(end_date__date=day)
-        result = paginator.paginate_queryset(ads, request)
-        serializer = self.get_serializer(result, many=True)
-        response = paginator.get_paginated_response(serializer.data)
+        # result = paginator.paginate_queryset(ads, request)
+        serializer = self.get_serializer(ads, many=True)
+        # response = paginator.get_paginated_response(serializer.data)
+        response = Response(serializer.data)
         return response
