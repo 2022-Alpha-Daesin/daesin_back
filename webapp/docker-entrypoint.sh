@@ -5,6 +5,7 @@ python manage.py migrate --noinput
 
 python manage.py pull_major
 python manage.py init_tags 
+python manage.py init_clubs 
 python manage.py pull_menus
 python manage.py collectstatic --noinput
 
