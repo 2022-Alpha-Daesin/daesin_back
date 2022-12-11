@@ -22,7 +22,7 @@ def classify_date(title , date, col,menu):
         menu = Menu.objects.create(division = col,food = menu,cafeteria=cafeteria)
 
 def is_recent_updated(date):
-    print("시빠",date)
+    print("첫 날짜",date)
     return Cafeteria.objects.filter(date=date).exists()
 
 
@@ -52,11 +52,16 @@ class Command(BaseCommand):
                     item = bodys[b_index].find_all('td')[d_index]
                     col = bodys[b_index].find_all('td')[0]
                     if not item.find('input') == []:
-                        input_tag = item.find('input')
-                        if input_tag != None:
-                            fourvalue = input_tag['value'].replace('{','').replace('}','').split(',')[1].replace(' fourValue=','')
+                        input_tag = item.find_all('input')
+                        input_text = input_tag[0]
+                        input_price = input_tag[1]
+                        if input_text != None:
+                            fourvalue = input_text['value'].replace('{','').replace('}','').split('fourValue=')[1]
+                            pricevalue = input_price['value'].replace('{','').replace('}','').split('fourValue=')[1]
+                            if not pricevalue=='':
+                                pricevalue = bs(pricevalue, 'html.parser').find('span').get_text()
                             if not fourvalue == '':
                                 column = col.get_text().replace('\n', '')
-                                menu = item.get_text().replace('\n', ' ').replace('\t',' ')
+                                menu = fourvalue.replace('<br>', '/').replace('\n', '').replace('\t','')+pricevalue
                                 classify_date(title_text,date_text,column,menu)
         logger.info('Complete Cafeteria Crawling ')

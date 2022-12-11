@@ -16,6 +16,7 @@ class PostSerializer(ModelSerializer):
     tags = PostTagSerializer(source='post_tags', many=True, read_only=True)
     comments = CommentSerializer(source = 'comment_set',many=True,read_only=True)
     comments_count = serializers.SerializerMethodField(read_only=True)
+    related_id = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Post
@@ -34,6 +35,7 @@ class PostSerializer(ModelSerializer):
             'like_count',
             'is_liked',
             'is_scraped',
+            'related_id'
         ]
         read_only_fields = ['type']
         extra_kwargs = {
@@ -48,6 +50,11 @@ class PostSerializer(ModelSerializer):
                 }
             }
         }
+    def get_related_id(self,post):
+        if post.type=='R':
+            return post.review.id
+        else:
+            return post.advertisement.id
 
     def get_like_count(self, post):
         return post.like.count()

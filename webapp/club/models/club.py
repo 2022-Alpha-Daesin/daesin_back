@@ -1,7 +1,7 @@
 import datetime
 
 from django.db import models
-
+from django.utils import timezone
 
 class Club(models.Model):
     class Meta:
@@ -34,11 +34,11 @@ class Club(models.Model):
         verbose_name="가입 조건",
     )
     recruitment_period_start = models.DateTimeField(
-        default=datetime.datetime.now,
+        null=True,
         verbose_name="모집 시작 날짜",
     )
     recruitment_period_end = models.DateTimeField(
-        default=datetime.datetime.now,
+        null=True,
         verbose_name="모집 종료 날짜",
     )
     representative_number = models.CharField(
