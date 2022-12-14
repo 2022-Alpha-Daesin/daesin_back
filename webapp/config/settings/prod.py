@@ -21,7 +21,7 @@ DEBUG = False
 #     },
 # }
 
-# URL_FRONT = '실배포 프론트'
+URL_FRONT = 'https://daesin.tk/'
 
 
 DATABASES = {
