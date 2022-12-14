@@ -49,8 +49,7 @@ class ADViewSet(ModelViewSet):
     def deadline_0(self, request):
         # paginator = PageNumberPagination()
         # paginator.page_size = 4
-        day = datetime.today() + timedelta(days=0)
-        ads = Advertisement.objects.filter(Q(end_date__date=day) & Q(end_date__gt=datetime.now()))
+        ads = Advertisement.objects.filter(end_date__date= datetime.today())
         # result = paginator.paginate_queryset(ads, request)
         serializer = self.get_serializer(ads, many=True)
         # response = paginator.get_paginated_response(serializer.data)
