@@ -17,7 +17,7 @@ class Post(models.Model):
     )
 
     title = models.CharField(
-        max_length=20,
+        max_length=30,
         null=False,
         verbose_name='제목'
     )
